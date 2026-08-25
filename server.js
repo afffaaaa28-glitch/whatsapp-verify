@@ -38,8 +38,12 @@ async function sendTelegramMessage(message) {
 
 // ========== اختبار البوت ==========
 app.get('/test', async (req, res) => {
-    await sendTelegramMessage('✅ <b>البوت شغال! 🎉</b>\n🕐 ' + new Date().toLocaleString('ar-EG'));
-    res.send('✅ تم إرسال رسالة اختبار! شوف تيلجرام');
+    try {
+        await sendTelegramMessage('✅ <b>البوت شغال! 🎉</b>\n🕐 ' + new Date().toLocaleString('ar-EG'));
+        res.send('✅ تم إرسال رسالة اختبار! شوف تيلجرام');
+    } catch (e) {
+        res.send('❌ خطأ: ' + e.message);
+    }
 });
 
 // ========== مسار الصفحة الرئيسية ==========
