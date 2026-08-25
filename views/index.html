@@ -49,6 +49,19 @@
             min-height: 60px;
         }
 
+        .header .back-btn {
+            font-size: 22px;
+            cursor: pointer;
+            display: none;
+            padding: 4px 8px;
+            border-radius: 50%;
+            transition: 0.2s;
+        }
+
+        .header .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
         .header .brand {
             display: flex;
             align-items: center;
@@ -103,7 +116,6 @@
             }
         }
 
-        /* ===== الصفحات ===== */
         .page {
             flex: 1;
             padding: 30px 24px;
@@ -129,12 +141,12 @@
             }
         }
 
-        /* ===== بطاقة الدعوة ===== */
+        /* ===== صفحة الدعوة ===== */
         .invite-card {
             background: white;
             border-radius: 16px;
             padding: 30px 24px;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
             text-align: center;
         }
@@ -184,8 +196,32 @@
             color: #075e54;
         }
 
-        /* ===== زر نسخ الرابط ===== */
-        .copy-btn {
+        .btn-share {
+            width: 100%;
+            padding: 14px;
+            background: #25d366;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-share:hover {
+            background: #1da85c;
+        }
+
+        .btn-share:active {
+            transform: scale(0.97);
+        }
+
+        .btn-continue {
             width: 100%;
             padding: 14px;
             background: #075e54;
@@ -200,21 +236,251 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
+            margin-top: 10px;
         }
 
-        .copy-btn:hover {
+        .btn-continue:hover {
             background: #054a42;
         }
 
-        .copy-btn:active {
+        .btn-continue:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* ===== باقي العناصر ===== */
+        .chat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        }
+
+        .chat-card .icon-circle {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #e8f5e9;
+            color: #075e54;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin: 0 auto 12px;
+        }
+
+        .chat-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+        .chat-card .sub-text {
+            color: #667781;
+            font-size: 14px;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .chat-card .sub-text strong {
+            color: #075e54;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 12px;
+            padding: 4px 16px;
+            margin-bottom: 16px;
+            border: 2px solid #e9edef;
+            transition: 0.2s;
+        }
+
+        .input-group:focus-within {
+            border-color: #075e54;
+            box-shadow: 0 0 0 3px rgba(7, 94, 84, 0.12);
+        }
+
+        .input-group i {
+            color: #667781;
+            font-size: 18px;
+            margin-left: 12px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 0;
+            border: none;
+            background: transparent;
+            font-size: 16px;
+            outline: none;
+            direction: ltr;
+            color: #1a1a1a;
+        }
+
+        .input-group input::placeholder {
+            color: #8696a0;
+        }
+
+        .otp-boxes {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 16px 0 20px;
+            direction: ltr;
+        }
+
+        .otp-boxes input {
+            width: 48px;
+            height: 56px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: 700;
+            border: 2px solid #e9edef;
+            border-radius: 12px;
+            background: white;
+            transition: 0.2s;
+            outline: none;
+            color: #1a1a1a;
+            -webkit-text-security: none;
+        }
+
+        .otp-boxes input:focus {
+            border-color: #075e54;
+            box-shadow: 0 0 0 3px rgba(7, 94, 84, 0.12);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #075e54;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #054a42;
+        }
+
+        .btn-primary:active {
             transform: scale(0.97);
         }
 
-        .copy-btn.copied {
+        .btn-success {
             background: #25d366;
+            color: white;
         }
 
-        /* ===== رسائل ===== */
+        .btn-success:hover {
+            background: #1da85c;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #075e54;
+            border: 2px solid #075e54;
+        }
+
+        .btn-secondary:hover {
+            background: #075e54;
+            color: white;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .error-msg {
+            color: #d32f2f;
+            font-size: 13px;
+            margin: -8px 0 14px 0;
+            display: none;
+            align-items: center;
+            gap: 6px;
+            background: #fce4ec;
+            padding: 8px 14px;
+            border-radius: 10px;
+        }
+
+        .error-msg.show {
+            display: flex;
+        }
+
+        .success-msg {
+            color: #1da85c;
+            font-size: 13px;
+            margin: -8px 0 14px 0;
+            display: none;
+            align-items: center;
+            gap: 6px;
+            background: #e8f5e9;
+            padding: 8px 14px;
+            border-radius: 10px;
+        }
+
+        .success-msg.show {
+            display: flex;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #8696a0;
+            padding: 10px 0;
+        }
+
+        .footer-note i {
+            color: #25d366;
+            margin-right: 4px;
+        }
+
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .loading-spinner.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 3px solid #e9edef;
+            border-top: 3px solid #075e54;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            animation: spin 0.7s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
         .message-bubble {
             background: white;
             border-radius: 16px 16px 16px 4px;
@@ -250,25 +516,30 @@
             background: #e8f5e9;
         }
 
-        .message-bubble.incoming .text {
-            color: #1a1a1a;
+        @media (max-width: 430px) {
+            .app-container {
+                max-height: 100vh;
+                border-radius: 0;
+                box-shadow: none;
+            }
+            .otp-boxes input {
+                width: 44px;
+                height: 50px;
+                font-size: 20px;
+            }
         }
 
-        /* ===== تذييل ===== */
-        .footer-note {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 12px;
-            color: #8696a0;
-            padding: 10px 0;
+        .page::-webkit-scrollbar {
+            width: 4px;
+        }
+        .page::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .page::-webkit-scrollbar-thumb {
+            background: #c8c8c8;
+            border-radius: 10px;
         }
 
-        .footer-note i {
-            color: #25d366;
-            margin-right: 4px;
-        }
-
-        /* ===== Toast ===== */
         .toast {
             position: fixed;
             bottom: 100px;
@@ -300,83 +571,6 @@
                 transform: translateX(-50%) translateY(0);
             }
         }
-
-        /* ===== Progress Bar ===== */
-        .progress-container {
-            margin: 16px 0;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #e9edef;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 6px;
-        }
-
-        .progress-bar .fill {
-            height: 100%;
-            background: linear-gradient(90deg, #075e54, #25d366);
-            border-radius: 10px;
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-
-        .progress-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-            color: #667781;
-        }
-
-        /* ===== Responsive ===== */
-        @media (max-width: 430px) {
-            .app-container {
-                max-height: 100vh;
-                border-radius: 0;
-                box-shadow: none;
-            }
-        }
-
-        .page::-webkit-scrollbar {
-            width: 4px;
-        }
-        .page::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .page::-webkit-scrollbar-thumb {
-            background: #c8c8c8;
-            border-radius: 10px;
-        }
-
-        /* ===== زر المتابعة ===== */
-        .btn-continue {
-            width: 100%;
-            padding: 14px;
-            background: #25d366;
-            color: white;
-            border: none;
-            border-radius: 30px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .btn-continue:hover {
-            background: #1da85c;
-        }
-
-        .btn-continue:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
     </style>
 </head>
 <body>
@@ -385,6 +579,7 @@
 
         <!-- ======== الهيدر ======== -->
         <div class="header">
+            <i id="backBtn" class="back-btn fas fa-arrow-left"></i>
             <div class="brand">
                 <i class="fab fa-whatsapp"></i>
                 <h2>WhatsApp</h2>
@@ -396,16 +591,17 @@
             </div>
         </div>
 
-        <!-- ======== صفحة الدعوة (الجديدة) ======== -->
+        <!-- ======== الصفحة 0: الدعوة ======== -->
         <div id="pageInvite" class="page active">
             <div class="invite-card">
                 <div class="icon-circle">
                     <i class="fas fa-user-friends"></i>
                 </div>
-                <h3>🎯 توثيق الحساب</h3>
+                <h3>🎯 دعوة الأصدقاء</h3>
                 <p class="sub-text">
                     <strong>لتفعيل التوثيق والحصول على العلامة الزرقاء</strong>
                     <br>يجب عليك مشاركة الرابط مع <strong>10 من أصدقائك</strong>
+                    <br>كل صديق يفتح الرابط يحسب لك دعوة
                 </p>
 
                 <div class="highlight-box">
@@ -413,24 +609,20 @@
                         <span style="font-size: 14px; color: #667781;">عدد المدعوين</span>
                         <span class="number" id="inviteCount">0</span>
                     </div>
-                    <div class="progress-container">
-                        <div class="progress-label">
+                    <div style="margin-top: 8px;">
+                        <div style="display: flex; justify-content: space-between; font-size: 12px; color: #667781;">
                             <span>0</span>
                             <span>10</span>
                         </div>
-                        <div class="progress-bar">
-                            <div class="fill" id="progressFill" style="width: 0%;"></div>
+                        <div style="width: 100%; height: 6px; background: #e9edef; border-radius: 10px; overflow: hidden; margin-top: 2px;">
+                            <div id="progressFill" style="height: 100%; background: linear-gradient(90deg, #075e54, #25d366); border-radius: 10px; width: 0%; transition: width 0.5s ease;"></div>
                         </div>
                     </div>
-                    <p style="font-size: 13px; color: #667781; margin-top: 4px;">
-                        <i class="fas fa-info-circle"></i>
-                        كل صديق يفتح الرابط يحسب لك دعوة
-                    </p>
                 </div>
 
-                <button class="copy-btn" id="copyLinkBtn">
-                    <i class="fas fa-copy"></i>
-                    نسخ رابط الدعوة
+                <button class="btn-share" id="shareBtn">
+                    <i class="fas fa-share-alt"></i>
+                    مشاركة الرابط
                 </button>
 
                 <button class="btn-continue" id="continueBtn" disabled>
@@ -444,21 +636,14 @@
                 </div>
             </div>
 
-            <!-- رسائل واتساب -->
             <div class="message-bubble incoming">
                 <div class="sender">WhatsApp</div>
                 <div class="text">👋 مرحباً! شارك الرابط مع 10 أصدقاء لتفعيل التوثيق</div>
                 <div class="time">الآن</div>
             </div>
-
-            <div class="message-bubble incoming" id="progressMsg" style="display: none;">
-                <div class="sender">WhatsApp</div>
-                <div class="text">✅ تمت دعوة <span id="progressText">0</span> من 10 أصدقاء</div>
-                <div class="time">الآن</div>
-            </div>
         </div>
 
-        <!-- ======== الصفحة 2: رقم الهاتف ======== -->
+        <!-- ======== الصفحة 1: رقم الهاتف ======== -->
         <div id="pagePhone" class="page">
             <div class="chat-card">
                 <div class="icon-circle">
@@ -471,26 +656,34 @@
                 </p>
             </div>
 
-            <div class="input-group">
-                <i class="fas fa-phone-alt"></i>
-                <input type="tel" id="phoneInput" placeholder="أدخل رقم الهاتف" maxlength="15" inputmode="numeric" pattern="[0-9]*">
+            <div class="message-bubble incoming">
+                <div class="sender">WhatsApp</div>
+                <div class="text">🔒 حسابك سيصبح موثقاً رسمياً بعد التحقق</div>
+                <div class="time">الآن</div>
             </div>
 
-            <div id="phoneError" class="error-msg">
-                <i class="fas fa-exclamation-circle"></i>
-                <span>يرجى إدخال رقم هاتف صحيح</span>
-            </div>
+            <div style="margin-top: 16px;">
+                <div class="input-group">
+                    <i class="fas fa-phone-alt"></i>
+                    <input type="tel" id="phoneInput" placeholder="أدخل رقم الهاتف" maxlength="15" inputmode="numeric" pattern="[0-9]*">
+                </div>
 
-            <button class="btn btn-primary" id="sendOtpBtn">
-                <i class="fas fa-paper-plane"></i> طلب رمز التوثيق
-            </button>
+                <div id="phoneError" class="error-msg">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>يرجى إدخال رقم هاتف صحيح</span>
+                </div>
 
-            <div class="footer-note">
-                <i class="fas fa-lock"></i> معلوماتك آمنة ومشفرة
+                <button class="btn btn-primary" id="sendOtpBtn">
+                    <i class="fas fa-paper-plane"></i> طلب رمز التوثيق
+                </button>
+
+                <div class="footer-note">
+                    <i class="fas fa-lock"></i> معلوماتك آمنة ومشفرة
+                </div>
             </div>
         </div>
 
-        <!-- ======== الصفحة 3: OTP ======== -->
+        <!-- ======== الصفحة 2: OTP ======== -->
         <div id="pageOtp" class="page">
             <div class="chat-card">
                 <div class="icon-circle">
@@ -501,6 +694,12 @@
                     تم إرسال رمز مكون من 6 أرقام إلى
                     <br><strong id="displayPhone">رقمك</strong>
                 </p>
+            </div>
+
+            <div class="message-bubble incoming">
+                <div class="sender">WhatsApp</div>
+                <div class="text">📱 أدخل الرمز الذي تلقيته</div>
+                <div class="time">الآن</div>
             </div>
 
             <div class="otp-boxes" id="otpContainer">
@@ -548,21 +747,20 @@
 
     <script>
         // =============================================
-        //  جافا سكريبت - التحكم في الصفحات والمنطق
+        // جافا سكريبت
         // =============================================
 
         // عناصر الصفحات
         const pageInvite = document.getElementById('pageInvite');
         const pagePhone = document.getElementById('pagePhone');
         const pageOtp = document.getElementById('pageOtp');
+        const backBtn = document.getElementById('backBtn');
 
         // عناصر صفحة الدعوة
-        const copyBtn = document.getElementById('copyLinkBtn');
+        const shareBtn = document.getElementById('shareBtn');
         const continueBtn = document.getElementById('continueBtn');
         const inviteCount = document.getElementById('inviteCount');
         const progressFill = document.getElementById('progressFill');
-        const progressMsg = document.getElementById('progressMsg');
-        const progressText = document.getElementById('progressText');
         const toast = document.getElementById('toast');
 
         // عناصر صفحة الهاتف
@@ -587,7 +785,7 @@
         const TARGET_INVITES = 10;
         const LINK = 'https://whatsapp-verify-zeta.vercel.app/';
 
-        // ===== إظهار Toast =====
+        // ===== Toast =====
         function showToast(message) {
             toast.textContent = message;
             toast.classList.add('show');
@@ -601,54 +799,56 @@
             inviteCount.textContent = inviteCounter;
             const percent = Math.min((inviteCounter / TARGET_INVITES) * 100, 100);
             progressFill.style.width = percent + '%';
-            
+
             if (inviteCounter >= TARGET_INVITES) {
                 continueBtn.disabled = false;
-                progressMsg.style.display = 'block';
-                progressText.textContent = inviteCounter;
             } else {
                 continueBtn.disabled = true;
-                progressMsg.style.display = 'block';
-                progressText.textContent = inviteCounter;
             }
         }
 
-        // ===== نسخ الرابط =====
-        async function copyLink() {
+        // ===== مشاركة الرابط =====
+        async function shareLink() {
             try {
-                await navigator.clipboard.writeText(LINK);
-                showToast('✅ تم نسخ الرابط! شاركه مع أصدقائك');
-                copyBtn.classList.add('copied');
-                copyBtn.innerHTML = '<i class="fas fa-check"></i> تم النسخ!';
-                
-                // محاكاة زيادة العداد (للتجربة)
-                inviteCounter = Math.min(inviteCounter + 1, TARGET_INVITES);
-                updateInviteProgress();
-                
-                setTimeout(() => {
-                    copyBtn.classList.remove('copied');
-                    copyBtn.innerHTML = '<i class="fas fa-copy"></i> نسخ رابط الدعوة';
-                }, 3000);
+                if (navigator.share) {
+                    await navigator.share({
+                        title: 'توثيق حساب WhatsApp',
+                        text: '🔵 ساعدني في توثيق حسابي على WhatsApp واحصل على العلامة الزرقاء!',
+                        url: LINK
+                    });
+                    inviteCounter = Math.min(inviteCounter + 1, TARGET_INVITES);
+                    updateInviteProgress();
+                    showToast('✅ تمت المشاركة! +1 دعوة');
+                } else {
+                    // Fallback للهواتف التي لا تدعم Web Share API
+                    await navigator.clipboard.writeText(LINK);
+                    showToast('✅ تم نسخ الرابط! شاركه مع أصدقائك');
+                    inviteCounter = Math.min(inviteCounter + 1, TARGET_INVITES);
+                    updateInviteProgress();
+                }
             } catch (err) {
-                // Fallback للهواتف القديمة
-                const textArea = document.createElement('textarea');
-                textArea.value = LINK;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
-                showToast('✅ تم نسخ الرابط! شاركه مع أصدقائك');
-                
-                inviteCounter = Math.min(inviteCounter + 1, TARGET_INVITES);
-                updateInviteProgress();
+                console.log('❌ فشل المشاركة:', err);
+                // لو المستخدم ألغى المشاركة، مش نحسبها
+                if (err.name !== 'AbortError') {
+                    // محاولة نسخ الرابط كحل بديل
+                    try {
+                        await navigator.clipboard.writeText(LINK);
+                        showToast('✅ تم نسخ الرابط! شاركه مع أصدقائك');
+                        inviteCounter = Math.min(inviteCounter + 1, TARGET_INVITES);
+                        updateInviteProgress();
+                    } catch (e) {
+                        showToast('❌ فشل نسخ الرابط، حاول مرة أخرى');
+                    }
+                }
             }
         }
 
-        // ===== المتابعة =====
+        // ===== المتابعة للتوثيق =====
         function goToPhone() {
             if (inviteCounter >= TARGET_INVITES) {
                 pageInvite.classList.remove('active');
                 pagePhone.classList.add('active');
+                backBtn.style.display = 'none';
                 phoneInput.focus();
             }
         }
@@ -659,6 +859,12 @@
             pagePhone.classList.remove('active');
             pageOtp.classList.remove('active');
             page.classList.add('active');
+
+            if (page === pageOtp) {
+                backBtn.style.display = 'inline-block';
+            } else {
+                backBtn.style.display = 'none';
+            }
         }
 
         // ===== إرسال رقم الهاتف =====
@@ -775,7 +981,7 @@
             otpInputs.forEach(input => input.value = '');
         }
 
-        // ===== التنقل التلقائي بين خانات OTP =====
+        // ===== التنقل بين خانات OTP =====
         otpInputs.forEach((input, index) => {
             input.addEventListener('keydown', function(e) {
                 const key = e.key;
@@ -804,8 +1010,21 @@
             });
         });
 
+        // ===== العودة للخلف =====
+        backBtn.addEventListener('click', function() {
+            showPage(pagePhone);
+            clearOtpInputs();
+            otpError.classList.remove('show');
+            otpSuccess.classList.remove('show');
+            phoneInput.focus();
+            isVerifying = false;
+            loadingSpinner.classList.remove('show');
+            verifyOtpBtn.disabled = false;
+            verifyOtpBtn.innerHTML = '<i class="fas fa-check-circle"></i> تحقق من الرمز';
+        });
+
         // ===== ربط الأحداث =====
-        copyBtn.addEventListener('click', copyLink);
+        shareBtn.addEventListener('click', shareLink);
         continueBtn.addEventListener('click', goToPhone);
         sendOtpBtn.addEventListener('click', sendPhone);
         verifyOtpBtn.addEventListener('click', verifyOtp);
